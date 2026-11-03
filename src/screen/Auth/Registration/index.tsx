@@ -3,22 +3,59 @@ import AuthHeader from '../components/AuthHeader/index';
 import styles from '../styles';
 import { View } from 'react-native';
 import Input from '../../../common/components/Input/index';
-import { Formik, FormikValues } from 'formik';
+import { Formik, FormikHelpers, FormikValues } from 'formik';
 import { RegistrationSchema } from '../utils/validation';
 import DefaultButton from '../../../common/components/DefaultButton/index';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  onAuthStateChanged,
+} from '@react-native-firebase/auth';
+import type { ReactNativeFirebase } from '@react-native-firebase/app';
+
+interface IRegistrationValues {
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 
 interface ITouched {
   email: boolean;
   password: boolean;
   confirmPassword: boolean;
 }
+
 export default function Registration() {
   const [touched, setTouched] = useState<ITouched>({
     email: false,
     password: false,
     confirmPassword: false,
   });
+
+  useEffect(() => {
+    const subscriber = onAuthStateChanged(getAuth(), (user) => {
+        console.log('User: ',user);
+    });
+    
+    return subscriber;
+  }, []);
+
+  const registrateUser = async (email: string, password: string, formikHelpers: FormikHelpers<IRegistrationValues>) => {
+    try {
+        await createUserWithEmailAndPassword(getAuth(), email, password);
+    } catch (error) {
+        if (
+          (error as ReactNativeFirebase.NativeFirebaseError).code ===
+          'auth/email-already-in-use'
+        ) {
+            formikHelpers.setFieldError('email', 'Email is already in use');
+        }
+        console.error(error);
+    }
+  }
+
   return (
     <AuthLayout>
       <AuthHeader activeTab={'registration'} />
@@ -28,8 +65,8 @@ export default function Registration() {
           password: '',
           confirmPassword: '',
         }}
-        onSubmit={value => {
-          console.log('value', value);
+        onSubmit={(value, formikHelpers) => {
+          registrateUser(value.email, value.password, formikHelpers);
         }}
         validationSchema={RegistrationSchema()}>
         {({

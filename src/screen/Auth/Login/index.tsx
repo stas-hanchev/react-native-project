@@ -5,6 +5,10 @@ import AuthHeader from '../components/AuthHeader/index';
 import Input from '../../../common/components/Input/index';
 import DefaultButton from '../../../common/components/DefaultButton/index';
 import AuthLayout from '../components/AuthLayout/index';
+import {
+  getAuth,
+  signInWithEmailAndPassword
+} from '@react-native-firebase/auth';
 
 interface IInputValue {
   email: string;
@@ -20,12 +24,14 @@ export default function LoginPage() {
     errorEmail: null,
     errorPassword: null,
   });
+
   const handleChangeInput = (
     key: 'email' | 'password' | 'errorEmail' | 'errorPassword',
     value: string | null,
   ) => {
     setInputValues(prevState => ({...prevState, [key]: value}));
   };
+
   const checkEmail = () => {
     const emailValidator = new RegExp(
       '^([a-z0-9._%-]+@[a-z0-9.-]+.[a-z]{2,6})*$',
@@ -36,6 +42,7 @@ export default function LoginPage() {
       handleChangeInput('errorEmail', null);
     }
   };
+
   const checkPassword = (text: string) => {
     if (text.length < 8) {
       handleChangeInput(
@@ -46,12 +53,23 @@ export default function LoginPage() {
       handleChangeInput('errorPassword', null);
     }
   };
+
   const isDisabledLoginBtn = Boolean(
     inputValues.errorEmail ||
       inputValues.errorPassword ||
       !inputValues.email ||
       !inputValues.password,
   );
+
+  const onLogin = async (email: string, password: string) => {
+    try {
+        const result = await signInWithEmailAndPassword(getAuth(), email, password);
+        console.log('Result: ', result);
+    } catch (error) {
+        console.error(error);
+    }
+  }
+
   return (
     <AuthLayout>
       <AuthHeader activeTab={'login'} />
@@ -74,7 +92,7 @@ export default function LoginPage() {
         />
       </View>
       <DefaultButton
-        onPress={() => {}}
+        onPress={() => {onLogin(inputValues.email, inputValues.password);}}
         disabled={isDisabledLoginBtn}
         text={'Увійти'}
       />
