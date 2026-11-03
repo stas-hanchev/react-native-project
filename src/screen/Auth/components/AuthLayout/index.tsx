@@ -15,13 +15,12 @@ interface IAuthLayout {
 export default function AuthLayout({children}: IAuthLayout) {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={[styles.mainWrapper]}>
-        <KeyboardAvoidingView
-          keyboardVerticalOffset={Platform.select({android: 20, ios: 90})}
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-          {children}
-        </KeyboardAvoidingView>
-      </View>
+      <KeyboardAvoidingView
+        style={styles.keyboardWrapper}
+        keyboardVerticalOffset={Platform.select({android: 20, ios: 90})}
+        behavior="padding">
+        <View style={styles.mainWrapper}>{children}</View>
+      </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
 }

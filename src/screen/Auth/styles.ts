@@ -2,6 +2,9 @@ import { Platform, StyleSheet } from 'react-native';
 import { fonts } from '../../constant/fonts';
 
 export default StyleSheet.create({
+  keyboardWrapper: {
+    flex: 1,
+  },
   mainWrapper: {
     margin: 20,
     flex: 1,
