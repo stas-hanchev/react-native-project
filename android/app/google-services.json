@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "420264816787",
+    "project_id": "pet-project-483d4",
+    "storage_bucket": "pet-project-483d4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:420264816787:android:13d8c9f599a0b698805d66",
+        "android_client_info": {
+          "package_name": "com.reactnativeproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiZ3Gm9A4mkUvkt2-27K00a0xV-9RYG0Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
