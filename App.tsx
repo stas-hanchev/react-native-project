@@ -15,7 +15,7 @@ import {
   SafeAreaView,
 } from 'react-native-safe-area-context';
 
-import LoginPage from './src/screen/Auth/Login';
+import RootNavigation from './src/navigation';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -24,7 +24,7 @@ function App() {
     <SafeAreaProvider>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <SafeAreaView style={styles.container}>
-        <LoginPage />
+        <RootNavigation />
       </SafeAreaView>
     </SafeAreaProvider>
   );
