@@ -1,5 +1,5 @@
-import {View} from 'react-native';
-import React, {useState} from 'react';
+import { View } from 'react-native';
+import React, { useState } from 'react';
 import styles from '../styles';
 import AuthHeader from '../components/AuthHeader/index';
 import Input from '../../../common/components/Input/index';
@@ -7,8 +7,12 @@ import DefaultButton from '../../../common/components/DefaultButton/index';
 import AuthLayout from '../components/AuthLayout/index';
 import {
   getAuth,
-  signInWithEmailAndPassword
+  signInWithEmailAndPassword,
 } from '@react-native-firebase/auth';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackNavigation } from '../../../navigation/types';
+import { ScreenNames } from '../../../constant/screenNames';
 
 interface IInputValue {
   email: string;
@@ -25,11 +29,14 @@ export default function LoginPage() {
     errorPassword: null,
   });
 
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackNavigation>>();
+
   const handleChangeInput = (
     key: 'email' | 'password' | 'errorEmail' | 'errorPassword',
     value: string | null,
   ) => {
-    setInputValues(prevState => ({...prevState, [key]: value}));
+    setInputValues(prevState => ({ ...prevState, [key]: value }));
   };
 
   const checkEmail = () => {
@@ -63,12 +70,20 @@ export default function LoginPage() {
 
   const onLogin = async (email: string, password: string) => {
     try {
-        const result = await signInWithEmailAndPassword(getAuth(), email, password);
-        console.log('Result: ', result);
+      const result = await signInWithEmailAndPassword(
+        getAuth(),
+        email,
+        password,
+      );
+      if (result.user) {
+        navigation.navigate(ScreenNames.LOGGED_IN_STACK, {
+          screen: ScreenNames.HOME_PAGE,
+        });
+      }
     } catch (error) {
-        console.error(error);
+      console.error(error);
     }
-  }
+  };
 
   return (
     <AuthLayout>
@@ -92,7 +107,9 @@ export default function LoginPage() {
         />
       </View>
       <DefaultButton
-        onPress={() => {onLogin(inputValues.email, inputValues.password);}}
+        onPress={() => {
+          onLogin(inputValues.email, inputValues.password);
+        }}
         disabled={isDisabledLoginBtn}
         text={'Увійти'}
       />

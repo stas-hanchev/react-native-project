@@ -14,6 +14,10 @@ import {
   onAuthStateChanged,
 } from '@react-native-firebase/auth';
 import type { ReactNativeFirebase } from '@react-native-firebase/app';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { CommonActions, useNavigation } from '@react-navigation/native';
+import { RootStackNavigation } from '../../../navigation/types';
+import { ScreenNames } from '../../../constant/screenNames';
 
 interface IRegistrationValues {
   email: string;
@@ -28,6 +32,9 @@ interface ITouched {
 }
 
 export default function Registration() {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackNavigation>>();
+
   const [touched, setTouched] = useState<ITouched>({
     email: false,
     password: false,
@@ -35,26 +42,42 @@ export default function Registration() {
   });
 
   useEffect(() => {
-    const subscriber = onAuthStateChanged(getAuth(), (user) => {
-        console.log('User: ',user);
+    const subscriber = onAuthStateChanged(getAuth(), user => {
+      if (user) {
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [
+              {
+                name: ScreenNames.LOGGED_IN_STACK,
+                params: { screen: ScreenNames.HOME_PAGE },
+              },
+            ],
+          }),
+        );
+      }
     });
-    
-    return subscriber;
-  }, []);
 
-  const registrateUser = async (email: string, password: string, formikHelpers: FormikHelpers<IRegistrationValues>) => {
+    return subscriber;
+  }, [navigation]);
+
+  const registrateUser = async (
+    email: string,
+    password: string,
+    formikHelpers: FormikHelpers<IRegistrationValues>,
+  ) => {
     try {
-        await createUserWithEmailAndPassword(getAuth(), email, password);
+      await createUserWithEmailAndPassword(getAuth(), email, password);
     } catch (error) {
-        if (
-          (error as ReactNativeFirebase.NativeFirebaseError).code ===
-          'auth/email-already-in-use'
-        ) {
-            formikHelpers.setFieldError('email', 'Email is already in use');
-        }
-        console.error(error);
+      if (
+        (error as ReactNativeFirebase.NativeFirebaseError).code ===
+        'auth/email-already-in-use'
+      ) {
+        formikHelpers.setFieldError('email', 'Email is already in use');
+      }
+      console.error(error);
     }
-  }
+  };
 
   return (
     <AuthLayout>
@@ -68,7 +91,8 @@ export default function Registration() {
         onSubmit={(value, formikHelpers) => {
           registrateUser(value.email, value.password, formikHelpers);
         }}
-        validationSchema={RegistrationSchema()}>
+        validationSchema={RegistrationSchema()}
+      >
         {({
           values,
           setFieldValue,
@@ -80,7 +104,7 @@ export default function Registration() {
             <View style={styles.formContainer}>
               <Input
                 onFocus={() =>
-                  setTouched(prevState => ({...prevState, email: true}))
+                  setTouched(prevState => ({ ...prevState, email: true }))
                 }
                 value={values.email}
                 onChangeText={value => {
@@ -91,7 +115,7 @@ export default function Registration() {
               />
               <Input
                 onFocus={() =>
-                  setTouched(prevState => ({...prevState, password: true}))
+                  setTouched(prevState => ({ ...prevState, password: true }))
                 }
                 value={values.password}
                 onChangeText={value => {
