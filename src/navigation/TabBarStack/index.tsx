@@ -7,8 +7,8 @@ import Home from '../../screen/Home';
 import { ScreenNames } from '../../constant/screenNames';
 import { TabBarStackType } from '../types';
 import Favorite from '../../screen/Favorite';
-import { StyleSheet, Text, View } from 'react-native';
-import { HeartIcon, Label, PawIcon } from '../../assets/icons';
+import { StyleSheet, Text } from 'react-native';
+import { HeartIcon, PawIcon } from '../../assets/icons';
 
 const Tab = createBottomTabNavigator<TabBarStackType>();
 
@@ -36,22 +36,7 @@ const screenOptions = ({
 }: {
   route: RouteProp<TabBarStackType>;
 }): BottomTabNavigationOptions => ({
-  header: () => {
-    return (
-      <View
-        style={{
-          width: '100%',
-          height: 60,
-          justifyContent: 'center',
-          alignItems: 'center',
-          padding: 10,
-        }}
-      >
-        {/* <Text>{getTabName(route.name)}</Text> */}
-        <Label />
-      </View>
-    );
-  },
+  headerShown: false,
   tabBarStyle: {
     height: 60,
     width: '100%',

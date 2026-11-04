@@ -6,6 +6,7 @@
  */
 
 import {
+  LogBox,
   StatusBar,
   StyleSheet,
   useColorScheme,
@@ -16,6 +17,12 @@ import {
 } from 'react-native-safe-area-context';
 
 import RootNavigation from './src/navigation';
+
+import 'react-native-gesture-handler';
+
+LogBox.ignoreLogs([
+  '[Reanimated] Dependencies should only be used on the web',
+]);
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';

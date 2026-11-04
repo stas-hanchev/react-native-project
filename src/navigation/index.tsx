@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { getAuth, onAuthStateChanged } from '@react-native-firebase/auth';
 import type { User } from '@react-native-firebase/auth';
@@ -28,7 +28,13 @@ export default function RootNavigation() {
   }
 
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={{
+        ...DefaultTheme,
+        colors: {
+            ...DefaultTheme.colors,
+            background: '#FAFAFA'
+        }
+    }}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {user ? (
           <Stack.Screen
