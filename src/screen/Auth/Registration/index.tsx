@@ -6,18 +6,13 @@ import Input from '../../../common/components/Input/index';
 import { Formik, FormikHelpers, FormikValues } from 'formik';
 import { RegistrationSchema } from '../utils/validation';
 import DefaultButton from '../../../common/components/DefaultButton/index';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import {
   createUserWithEmailAndPassword,
   getAuth,
-  onAuthStateChanged,
 } from '@react-native-firebase/auth';
 import type { ReactNativeFirebase } from '@react-native-firebase/app';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { CommonActions, useNavigation } from '@react-navigation/native';
-import { RootStackNavigation } from '../../../navigation/types';
-import { ScreenNames } from '../../../constant/screenNames';
 
 interface IRegistrationValues {
   email: string;
@@ -32,34 +27,11 @@ interface ITouched {
 }
 
 export default function Registration() {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackNavigation>>();
-
   const [touched, setTouched] = useState<ITouched>({
     email: false,
     password: false,
     confirmPassword: false,
   });
-
-  useEffect(() => {
-    const subscriber = onAuthStateChanged(getAuth(), user => {
-      if (user) {
-        navigation.dispatch(
-          CommonActions.reset({
-            index: 0,
-            routes: [
-              {
-                name: ScreenNames.LOGGED_IN_STACK,
-                params: { screen: ScreenNames.HOME_PAGE },
-              },
-            ],
-          }),
-        );
-      }
-    });
-
-    return subscriber;
-  }, [navigation]);
 
   const registrateUser = async (
     email: string,

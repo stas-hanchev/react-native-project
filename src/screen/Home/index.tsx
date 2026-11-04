@@ -1,14 +1,9 @@
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { getAuth, signOut } from '@react-native-firebase/auth';
 import { Text, TouchableOpacity } from 'react-native';
-import { RootStackNavigation } from '../../navigation/types';
 
 export default function Home() {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackNavigation>>();
-
   return (
-    <TouchableOpacity onPress={() => navigation.goBack()}>
+    <TouchableOpacity onPress={() => signOut(getAuth())}>
       <Text>Hello, World!</Text>
     </TouchableOpacity>
   );

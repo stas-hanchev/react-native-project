@@ -9,10 +9,6 @@ import {
   getAuth,
   signInWithEmailAndPassword,
 } from '@react-native-firebase/auth';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackNavigation } from '../../../navigation/types';
-import { ScreenNames } from '../../../constant/screenNames';
 
 interface IInputValue {
   email: string;
@@ -28,9 +24,6 @@ export default function LoginPage() {
     errorEmail: null,
     errorPassword: null,
   });
-
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackNavigation>>();
 
   const handleChangeInput = (
     key: 'email' | 'password' | 'errorEmail' | 'errorPassword',
@@ -70,16 +63,7 @@ export default function LoginPage() {
 
   const onLogin = async (email: string, password: string) => {
     try {
-      const result = await signInWithEmailAndPassword(
-        getAuth(),
-        email,
-        password,
-      );
-      if (result.user) {
-        navigation.navigate(ScreenNames.LOGGED_IN_STACK, {
-          screen: ScreenNames.HOME_PAGE,
-        });
-      }
+      await signInWithEmailAndPassword(getAuth(), email, password);
     } catch (error) {
       console.error(error);
     }
