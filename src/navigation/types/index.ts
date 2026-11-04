@@ -1,8 +1,13 @@
 import { NavigatorScreenParams } from '@react-navigation/native';
 import { ScreenNames } from '../../constant/screenNames';
 
-export type LoggedInStackType = {
+export type TabBarStackType = {
     [ScreenNames.HOME_PAGE]: undefined;
+    [ScreenNames.FAVORITE_PAGE]: undefined;
+}
+
+export type LoggedInStackType = {
+    [ScreenNames.TAB_BAR_STACK]: undefined;
 }
 
 export type LoggedOutStackType = {
