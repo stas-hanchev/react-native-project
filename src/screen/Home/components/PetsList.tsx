@@ -1,13 +1,32 @@
-import { Dimensions, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Dimensions,
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import type { Pet } from '../index';
-import { fonts } from "../../../assets/fonts";
-import { FavoriteIcon } from "../../../assets/icons";
+import { fonts } from '../../../assets/fonts';
+import { FavoriteIcon } from '../../../assets/icons';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { LoggedInStackType } from '../../../navigation/types';
+import { ScreenNames } from '../../../constant/screenNames';
 
 interface PetsListProps {
-    pets: Pet[];
+  pets: Pet[];
 }
 
-export default function PetsList({pets}: PetsListProps) {
+export default function PetsList({ pets }: PetsListProps) {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<LoggedInStackType>>();
+
+  const handleGoToPet = (item: Pet) => {
+    navigation.navigate(ScreenNames.PET_PAGE, { pet: item });
+  };
+
   return (
     <View style={styles.flex}>
       <FlatList
@@ -15,12 +34,15 @@ export default function PetsList({pets}: PetsListProps) {
         style={styles.mainContainer}
         numColumns={2}
         keyExtractor={item => item.id}
-        renderItem={({item}) => {
+        renderItem={({ item }) => {
           return (
-            <TouchableOpacity style={styles.item}>
+            <TouchableOpacity
+              style={styles.item}
+              onPress={() => handleGoToPet(item)}
+            >
               <View style={styles.image}>
                 <Image
-                  source={{uri: item.images[0]}}
+                  source={{ uri: item.images[0] }}
                   style={[StyleSheet.absoluteFill, styles.imageRadius]}
                   resizeMode={'cover'}
                 />
@@ -41,7 +63,7 @@ export default function PetsList({pets}: PetsListProps) {
 }
 
 const styles = StyleSheet.create({
-  flex: {flex: 1},
+  flex: { flex: 1 },
   mainContainer: {
     width: '100%',
     marginHorizontal: 10,
@@ -58,9 +80,9 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     justifyContent: 'space-between',
   },
-  imageRadius: {borderRadius: 20},
-  favoriteBtn: {alignSelf: 'flex-end', margin: 10},
-  textContainer: {margin: 15},
+  imageRadius: { borderRadius: 20 },
+  favoriteBtn: { alignSelf: 'flex-end', margin: 10 },
+  textContainer: { margin: 15 },
   text: {
     color: 'white',
     fontFamily: fonts.MontserratSemiBold,

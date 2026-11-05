@@ -11,6 +11,8 @@ import MaleAndFemaleIcon from './MaleAndFemaleIcon';
 import MaleIcon from './MaleIcon';
 import SearchIcon from './SearchIcon';
 import SettingsIcon from './SettingsIcon';
+import LongArrowIcon from './LongArrorIcon';
+import PlaceIcon from './PlaceIcon';
 
 export {
   FavoriteIcon,
@@ -26,4 +28,6 @@ export {
   MaleIcon,
   SearchIcon,
   SettingsIcon,
+  LongArrowIcon,
+  PlaceIcon,
 };
