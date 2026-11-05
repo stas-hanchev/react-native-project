@@ -14,6 +14,8 @@ interface IInput {
   additionalContainerStyle?: ViewStyle;
   additionInputStyle?: ViewStyle;
   onFocus?: () => void;
+  multiline?: boolean;
+  numberOfLines?: number;
 }
 export default function Input({
   onBlur,
@@ -26,6 +28,8 @@ export default function Input({
   additionalContainerStyle,
   additionInputStyle,
   onFocus,
+  multiline,
+  numberOfLines,
 }: IInput) {
   const [isPassHidden, setIsPassHidden] = useState(secureTextEntry);
 
@@ -41,6 +45,8 @@ export default function Input({
           value={value}
           onChangeText={text => onChangeText(text)}
           secureTextEntry={isPassHidden}
+          multiline={multiline}
+          numberOfLines={numberOfLines}
         />
         {secureTextEntry && (
           <TouchableOpacity
