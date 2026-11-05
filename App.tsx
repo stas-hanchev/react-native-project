@@ -20,12 +20,41 @@ import RootNavigation from './src/navigation';
 
 import 'react-native-gesture-handler';
 
+// import {
+//   collection,
+//   doc,
+//   getFirestore,
+//   writeBatch,
+// } from '@react-native-firebase/firestore';
+
+// import { animals } from './animals_list';
+// import { useEffect } from 'react';
+
 LogBox.ignoreLogs([
   '[Reanimated] Dependencies should only be used on the web',
 ]);
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
+
+//   const db = getFirestore();
+
+//   const uploadAnimalsToFirestore = async (
+//     animals: Record<string, unknown>[],
+//   ) => {
+//     const collectionRef = collection(db, 'animals');
+//     const batch = writeBatch(db);
+
+//     animals.forEach(animal => {
+//       batch.set(doc(collectionRef), animal);
+//     });
+
+//     await batch.commit();
+//   };
+
+//   useEffect(() => {
+//     uploadAnimalsToFirestore(animals);
+//   }, []);
 
   return (
     <SafeAreaProvider>
