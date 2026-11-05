@@ -1,17 +1,19 @@
 import { NavigatorScreenParams } from '@react-navigation/native';
 import { ScreenNames } from '../../constant/screenNames';
+import type { SettingsProps } from '../../screen/FilterSettings';
 
 export type DrawerStackType = {
     [ScreenNames.TAB_BAR_STACK]: NavigatorScreenParams<TabBarStackType>;
 }
 
 export type TabBarStackType = {
-    [ScreenNames.HOME_PAGE]: undefined;
+    [ScreenNames.HOME_PAGE]: { settings?: SettingsProps } | undefined;
     [ScreenNames.FAVORITE_PAGE]: undefined;
 }
 
 export type LoggedInStackType = {
-    [ScreenNames.DRAWER_STACK]: undefined;
+    [ScreenNames.DRAWER_STACK]: NavigatorScreenParams<DrawerStackType>;
+    [ScreenNames.FILTER_SETTINGS_PAGE]: { settings?: SettingsProps } | undefined;
 }
 
 export type LoggedOutStackType = {

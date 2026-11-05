@@ -1,4 +1,4 @@
-import { Dimensions, FlatList, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Dimensions, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import type { Pet } from '../index';
 import { fonts } from "../../../assets/fonts";
 import { FavoriteIcon } from "../../../assets/icons";
@@ -18,11 +18,12 @@ export default function PetsList({pets}: PetsListProps) {
         renderItem={({item}) => {
           return (
             <TouchableOpacity style={styles.item}>
-              <ImageBackground
-                source={{uri: item.images[0]}}
-                imageStyle={styles.imageRadius}
-                style={styles.image}
-                resizeMode={'cover'}>
+              <View style={styles.image}>
+                <Image
+                  source={{uri: item.images[0]}}
+                  style={[StyleSheet.absoluteFill, styles.imageRadius]}
+                  resizeMode={'cover'}
+                />
                 <TouchableOpacity style={styles.favoriteBtn}>
                   <FavoriteIcon />
                 </TouchableOpacity>
@@ -30,7 +31,7 @@ export default function PetsList({pets}: PetsListProps) {
                   <Text style={styles.text}>{item.type}</Text>
                   <Text style={styles.text}>{item.age} years</Text>
                 </View>
-              </ImageBackground>
+              </View>
             </TouchableOpacity>
           );
         }}

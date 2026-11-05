@@ -29,6 +29,9 @@ const styles = StyleSheet.create({
     color: '#838383',
     marginTop: 4,
   },
+  hiddenTab: {
+    display: 'none',
+  },
 });
 
 const screenOptions = ({
