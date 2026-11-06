@@ -19,6 +19,7 @@ import {
 import RootNavigation from './src/navigation';
 
 import 'react-native-gesture-handler';
+import SplashScreen from 'react-native-splash-screen';
 
 // import {
 //   collection,
@@ -55,6 +56,8 @@ function App() {
 //   useEffect(() => {
 //     uploadAnimalsToFirestore(animals);
 //   }, []);
+
+  SplashScreen.hide();
 
   return (
     <SafeAreaProvider>
