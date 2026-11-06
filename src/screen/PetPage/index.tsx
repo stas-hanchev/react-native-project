@@ -66,7 +66,7 @@ export default function PetPage() {
     if (sliderIndex - 1 >= 0) {
       setSliderIndex(prevState => prevState - 1);
     } else {
-      setSliderIndex(route?.params?.pet?.images.length);
+      setSliderIndex(route?.params?.pet?.images.length - 1);
     }
   };
 

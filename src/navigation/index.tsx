@@ -11,6 +11,12 @@ import ErrorBoundary from '../common/components/ErrorBoundary';
 
 const Stack = createNativeStackNavigator<RootStackNavigation>();
 
+const handleBoundaryError = (error: Error, stackTrace: string) => {
+  if (!__DEV__) {
+    console.error(error, stackTrace);
+  }
+};
+
 export default function RootNavigation() {
   const [user, setUser] = useState<User | null>(null);
   const [isInitializing, setIsInitializing] = useState(true);
@@ -38,7 +44,7 @@ export default function RootNavigation() {
         },
       }}
     >
-      <ErrorBoundary>
+      <ErrorBoundary onError={handleBoundaryError}>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           {user ? (
             <Stack.Screen
