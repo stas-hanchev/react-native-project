@@ -98,7 +98,7 @@ export default function Home() {
     };
 
     loadPets();
-
+    
     return () => {
       isActual = false;
     };
