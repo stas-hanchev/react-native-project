@@ -1,6 +1,7 @@
 import {Dimensions, StyleSheet, Text, TextInput, View} from 'react-native';
 import {SearchIcon} from '../../../assets/icons';
 import {fonts} from '../../../constant/fonts';
+import { useTranslation } from 'react-i18next';
 
 interface ISearchInput {
   onSearch: (text: string) => void;
@@ -8,6 +9,7 @@ interface ISearchInput {
   title: string;
 }
 export default function SearchInput({onSearch, value, title}: ISearchInput) {
+  const { t } = useTranslation();
   return (
     <View style={{gap: 5}}>
       <Text style={styles.btnText}>{title}</Text>
@@ -17,7 +19,7 @@ export default function SearchInput({onSearch, value, title}: ISearchInput) {
         </View>
         <TextInput
           placeholderTextColor={'#838383'}
-          placeholder={'Обери зі списку'}
+          placeholder={t('filters.selectFromList')}
           value={value}
           onChangeText={onSearch}
         />

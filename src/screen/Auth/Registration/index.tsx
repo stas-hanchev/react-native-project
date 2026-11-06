@@ -13,6 +13,7 @@ import {
   getAuth,
 } from '@react-native-firebase/auth';
 import type { ReactNativeFirebase } from '@react-native-firebase/app';
+import { useTranslation } from 'react-i18next';
 
 interface IRegistrationValues {
   email: string;
@@ -27,6 +28,7 @@ interface ITouched {
 }
 
 export default function Registration() {
+  const { t } = useTranslation();
   const [touched, setTouched] = useState<ITouched>({
     email: false,
     password: false,
@@ -45,7 +47,7 @@ export default function Registration() {
         (error as ReactNativeFirebase.NativeFirebaseError).code ===
         'auth/email-already-in-use'
       ) {
-        formikHelpers.setFieldError('email', 'Email is already in use');
+        formikHelpers.setFieldError('email', t('validation.emailInUse'));
       }
       console.error(error);
     }
@@ -63,7 +65,7 @@ export default function Registration() {
         onSubmit={(value, formikHelpers) => {
           registrateUser(value.email, value.password, formikHelpers);
         }}
-        validationSchema={RegistrationSchema()}
+        validationSchema={RegistrationSchema(t)}
       >
         {({
           values,
@@ -82,7 +84,7 @@ export default function Registration() {
                 onChangeText={value => {
                   setFieldValue('email', value);
                 }}
-                placeholder={'Email'}
+                placeholder={t('auth.emailPlaceholder')}
                 error={touched.email && errors.email}
               />
               <Input
@@ -93,7 +95,7 @@ export default function Registration() {
                 onChangeText={value => {
                   setFieldValue('password', value);
                 }}
-                placeholder={'Password'}
+                placeholder={t('auth.passwordPlaceholder')}
                 error={touched.password && errors.password}
               />
               <Input
@@ -107,7 +109,7 @@ export default function Registration() {
                 onChangeText={value => {
                   setFieldValue('confirmPassword', value);
                 }}
-                placeholder={'Confirm password'}
+                placeholder={t('auth.confirmPasswordPlaceholder')}
                 error={touched.confirmPassword && errors.confirmPassword}
               />
             </View>
@@ -119,7 +121,7 @@ export default function Registration() {
                 !values.confirmPassword
               }
               onPress={handleSubmit}
-              text={'Зарееструватись'}
+              text={t('auth.registrationButton')}
             />
           </>
         )}

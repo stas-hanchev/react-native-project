@@ -25,7 +25,9 @@ export default function SwitchBtn<T extends string | boolean>({
           style={active === e.id ? styles.activeBtn : styles.nonActiveBtn}>
           {!!e.icon && <View style={styles.iconContainer}>{e.icon}</View>}
           <View style={[styles.textContainer, !!e.icon && {flex: 0.8}]}>
-            <Text style={styles.btnText}>{e.text}</Text>
+            <Text style={styles.btnText} numberOfLines={1} adjustsFontSizeToFit>
+              {e.text}
+            </Text>
           </View>
         </TouchableOpacity>
       ))}

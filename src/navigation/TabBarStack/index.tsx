@@ -9,18 +9,23 @@ import { TabBarStackType } from '../types';
 import Favorite from '../../screen/Favorite';
 import { StyleSheet, Text } from 'react-native';
 import { HeartIcon, PawIcon } from '../../assets/icons';
+import { useTranslation } from 'react-i18next';
 
 const Tab = createBottomTabNavigator<TabBarStackType>();
 
-const getTabName = (name: string) => {
-  switch (name) {
-    case ScreenNames.HOME_PAGE:
-      return 'Пухнастики';
-    case ScreenNames.FAVORITE_PAGE:
-      return 'Улюблені';
-    default:
-      return name;
-  }
+const tabTitleKeys: Record<keyof TabBarStackType, string> = {
+  [ScreenNames.HOME_PAGE]: 'tabs.home',
+  [ScreenNames.FAVORITE_PAGE]: 'tabs.favorites',
+};
+
+const TabLabel = ({ name }: { name: keyof TabBarStackType }) => {
+  const { t } = useTranslation();
+
+  return (
+    <Text style={styles.label} numberOfLines={1}>
+      {t(tabTitleKeys[name])}
+    </Text>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -57,11 +62,7 @@ const screenOptions = ({
     }
     return null;
   },
-  tabBarLabel: () => (
-    <Text style={styles.label} numberOfLines={1}>
-      {getTabName(route.name)}
-    </Text>
-  ),
+  tabBarLabel: () => <TabLabel name={route.name} />,
 });
 
 export default function TabBarStack() {

@@ -27,6 +27,7 @@ import DefaultButton from '../../common/components/DefaultButton';
 import Input from '../../common/components/Input';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { handleToggleFavorite } from '../Home/components/PetsList';
+import { useTranslation } from 'react-i18next';
 
 interface IFormInfo {
   name: string;
@@ -35,6 +36,7 @@ interface IFormInfo {
   comment: string;
 }
 export default function PetPage() {
+  const { t } = useTranslation();
   const route = useRoute<RouteProp<{ params: { pet: Pet } }>>();
   const navigation =
     useNavigation<NativeStackNavigationProp<LoggedInStackType>>();
@@ -162,17 +164,19 @@ export default function PetPage() {
           </View>
           <View style={{ gap: 10, marginHorizontal: 10 }}>
             <Text style={[styles.titleText, { fontSize: 18 }]}>
-              Характеристики:
+              {t('pet.characteristics')}
             </Text>
             <View style={styles.characterContainer}>
               <View style={styles.characterWrapper}>
                 <Text style={styles.characterText}>
-                  {route?.params?.pet.age} років
+                  {t('pet.age', { count: route?.params?.pet.age })}
                 </Text>
               </View>
               <View style={styles.characterWrapper}>
                 <Text style={styles.characterText}>
-                  {route?.params?.pet.color}
+                  {t(`pet.color.${route?.params?.pet.color}`, {
+                    defaultValue: route?.params?.pet.color,
+                  })}
                 </Text>
               </View>
               <View style={styles.characterWrapper}>
@@ -182,21 +186,23 @@ export default function PetPage() {
               </View>
               <View style={styles.characterWrapper}>
                 <Text style={styles.characterText}>
-                  {route?.params?.pet.sex}
+                  {t(`pet.sex.${route?.params?.pet.sex}`, {
+                    defaultValue: route?.params?.pet.sex,
+                  })}
                 </Text>
               </View>
               <View style={styles.characterWrapper}>
                 <Text style={styles.characterText}>
                   {route?.params?.pet.isVaccinated
-                    ? 'Вакцінований'
-                    : 'Не вакцинований'}
+                    ? t('pet.vaccinated')
+                    : t('pet.notVaccinated')}
                 </Text>
               </View>
             </View>
           </View>
           <View style={{ margin: 10, gap: 10 }}>
             <Text style={[styles.titleText, { fontSize: 18 }]}>
-              Моя історія:
+              {t('pet.story')}
             </Text>
             <View>
               <Text style={styles.characterText}>
@@ -206,7 +212,7 @@ export default function PetPage() {
           </View>
           <DefaultButton
             onPress={() => setModalStep('form')}
-            text={"Подарувати сім'ю"}
+            text={t('pet.adopt')}
           />
         </View>
       </View>
@@ -225,10 +231,10 @@ export default function PetPage() {
                   <Text
                     style={{ fontFamily: fonts.ComfortaaRegular, fontSize: 24 }}
                   >
-                    Забрати хвостика додому
+                    {t('adoption.title')}
                   </Text>
                   <Text style={{ fontFamily: fonts.MontserratRegular }}>
-                    Залиш свої дані і ми з тобою зв’яжемося
+                    {t('adoption.subtitle')}
                   </Text>
                 </View>
                 <TouchableOpacity onPress={closeModal}>
@@ -236,17 +242,17 @@ export default function PetPage() {
                 </TouchableOpacity>
               </View>
               <View>
-                <Text>Ім'я</Text>
+                <Text>{t('adoption.nameLabel')}</Text>
                 <Input
                   value={formInfo.name}
-                  placeholder={"Введи своє ім'я"}
+                  placeholder={t('adoption.namePlaceholder')}
                   onChangeText={text => {
                     handleEditForm('name', text);
                   }}
                 />
               </View>
               <View>
-                <Text>Телефон</Text>
+                <Text>{t('adoption.phoneLabel')}</Text>
                 <Input
                   value={formInfo.phone}
                   placeholder={'+380'}
@@ -256,19 +262,19 @@ export default function PetPage() {
                 />
               </View>
               <View>
-                <Text>Email</Text>
+                <Text>{t('adoption.emailLabel')}</Text>
                 <Input
                   value={formInfo.email}
-                  placeholder={'Введи свою пошту'}
+                  placeholder={t('adoption.emailPlaceholder')}
                   onChangeText={text => {
                     handleEditForm('email', text);
                   }}
                 />
               </View>
               <View>
-                <Text>Коментар</Text>
+                <Text>{t('adoption.commentLabel')}</Text>
                 <Input
-                  placeholder={'Залиш коментар'}
+                  placeholder={t('adoption.commentPlaceholder')}
                   value={formInfo.comment}
                   onChangeText={text => {
                     handleEditForm('comment', text);
@@ -284,7 +290,7 @@ export default function PetPage() {
               <DefaultButton
                 disabled={!formInfo.email || !formInfo.phone || !formInfo.name}
                 onPress={() => setModalStep('success')}
-                text={'Забрати хвостика додому'}
+                text={t('adoption.submit')}
               />
             </View>
           )}
@@ -304,14 +310,13 @@ export default function PetPage() {
                 <Text
                   style={{ fontFamily: fonts.ComfortaaRegular, fontSize: 24 }}
                 >
-                  Дякуємо за заявку!
+                  {t('adoption.successTitle')}
                 </Text>
                 <Text style={{ fontFamily: fonts.MontserratRegular }}>
-                  Вітаємо! Ти на крок ближче до того щоб завести собі пухнастого
-                  друга. Ми скоро зв’яжемося з тобою.
+                  {t('adoption.successMessage')}
                 </Text>
               </View>
-              <DefaultButton onPress={closeModal} text={'Окей'} />
+              <DefaultButton onPress={closeModal} text={t('adoption.successButton')} />
             </View>
           )}
         </KeyboardAvoidingView>

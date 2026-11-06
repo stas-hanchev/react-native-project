@@ -1,0 +1,100 @@
+{
+  "drawer": {
+    "website": "Nasza strona",
+    "language": "Ustawienia języka",
+    "logout": "Wyloguj się"
+  },
+  "languages": {
+    "uk": "Українська",
+    "en": "English",
+    "pl": "Polski"
+  },
+  "tabs": {
+    "home": "Futrzaki",
+    "favorites": "Ulubione"
+  },
+  "auth": {
+    "title": "Miło Cię widzieć!",
+    "welcome": "Każdy futrzak zasługuje na troskliwych opiekunów.\nPomożemy Ci znaleźć przyjaciela.",
+    "loginTab": "Logowanie",
+    "registrationTab": "Rejestracja",
+    "emailPlaceholder": "E-mail",
+    "passwordPlaceholder": "Hasło",
+    "confirmPasswordPlaceholder": "Potwierdź hasło",
+    "loginButton": "Zaloguj się",
+    "registrationButton": "Zarejestruj się"
+  },
+  "validation": {
+    "emailInvalid": "Nieprawidłowy adres e-mail",
+    "emailRequired": "Wpisz adres e-mail",
+    "emailInUse": "Ten adres e-mail jest już używany",
+    "passwordLength": "Hasło musi mieć co najmniej 8 znaków",
+    "passwordRequired": "Wpisz hasło",
+    "passwordsMismatch": "Hasła nie są takie same",
+    "confirmPasswordRequired": "Potwierdź hasło"
+  },
+  "filters": {
+    "title": "Filtry",
+    "sortByDate": "Sortuj według daty dodania",
+    "dogs": "Psy",
+    "cats": "Koty",
+    "male": "Chłopak",
+    "female": "Dziewczyna",
+    "anySex": "Dowolna",
+    "small": "Małe",
+    "medium": "Średnie",
+    "big": "Duże",
+    "age": "Wiek, lata",
+    "vaccination": "Szczepienie",
+    "showResults": "Pokaż wyniki",
+    "selectFromList": "Wybierz z listy"
+  },
+  "home": {
+    "searchPlaceholder": "Szukaj",
+    "nothingFound": "Nic nie znaleziono"
+  },
+  "favorite": {
+    "empty": "Nie masz jeszcze ulubionych futrzaków"
+  },
+  "pet": {
+    "age_one": "{{count}} rok",
+    "age_few": "{{count}} lata",
+    "age_many": "{{count}} lat",
+    "age_other": "{{count}} roku",
+    "characteristics": "Cechy:",
+    "story": "Moja historia:",
+    "vaccinated": "Zaszczepiony",
+    "notVaccinated": "Niezaszczepiony",
+    "adopt": "Podaruj rodzinę",
+    "sex": {
+      "male": "Chłopak",
+      "female": "Dziewczyna"
+    },
+    "color": {
+      "black": "Czarny",
+      "white": "Biały",
+      "brown": "Brązowy",
+      "mixed": "Mieszany"
+    }
+  },
+  "adoption": {
+    "title": "Zabierz futrzaka do domu",
+    "subtitle": "Zostaw swoje dane, a skontaktujemy się z Tobą",
+    "nameLabel": "Imię",
+    "namePlaceholder": "Wpisz swoje imię",
+    "phoneLabel": "Telefon",
+    "emailLabel": "E-mail",
+    "emailPlaceholder": "Wpisz swój e-mail",
+    "commentLabel": "Komentarz",
+    "commentPlaceholder": "Zostaw komentarz",
+    "submit": "Zabierz futrzaka do domu",
+    "successTitle": "Dziękujemy za zgłoszenie!",
+    "successMessage": "Gratulacje! Jesteś o krok od zdobycia futrzastego przyjaciela. Wkrótce się z Tobą skontaktujemy.",
+    "successButton": "OK"
+  },
+  "error": {
+    "title": "Ups! Coś poszło nie tak",
+    "message": "Błąd: {{message}}",
+    "tryAgain": "Spróbuj ponownie"
+  }
+}

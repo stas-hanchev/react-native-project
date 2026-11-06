@@ -4,8 +4,14 @@ import {fonts} from '../../../assets/fonts';
 import {useNavigation} from '@react-navigation/core';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {LoggedInStackType} from '../../../navigation/types';
+import { useTranslation } from 'react-i18next';
 
-export default function SettingsHeader() {
+interface SettingsHeaderProps {
+  title?: string;
+}
+
+export default function SettingsHeader({ title }: SettingsHeaderProps) {
+  const { t } = useTranslation();
   const navigation = useNavigation<NativeStackNavigationProp<LoggedInStackType>>();
   return (
     <View style={styles.mainWrapper}>
@@ -14,7 +20,7 @@ export default function SettingsHeader() {
         style={styles.backBtn}>
         <ArrowIcon width={20} height={20} />
       </TouchableOpacity>
-      <Text style={styles.title}>Фільтри</Text>
+      <Text style={styles.title}>{title ?? t('filters.title')}</Text>
     </View>
   );
 }

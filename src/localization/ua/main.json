@@ -1,0 +1,100 @@
+{
+  "drawer": {
+    "website": "Наш сайт",
+    "language": "Налаштування мови",
+    "logout": "Вихід"
+  },
+  "languages": {
+    "uk": "Українська",
+    "en": "English",
+    "pl": "Polski"
+  },
+  "tabs": {
+    "home": "Пухнастики",
+    "favorites": "Улюблені"
+  },
+  "auth": {
+    "title": "Раді тебе вітати!",
+    "welcome": "Кожен пухнастик заслуговує на дбайливих господарів.\nМи допоможемо тобі знайти друга.",
+    "loginTab": "Вхід",
+    "registrationTab": "Реєстрація",
+    "emailPlaceholder": "Email",
+    "passwordPlaceholder": "Пароль",
+    "confirmPasswordPlaceholder": "Підтвердження пароля",
+    "loginButton": "Увійти",
+    "registrationButton": "Зареєструватись"
+  },
+  "validation": {
+    "emailInvalid": "Некоректний email",
+    "emailRequired": "Введи email",
+    "emailInUse": "Цей email вже використовується",
+    "passwordLength": "Пароль має містити щонайменше 8 символів",
+    "passwordRequired": "Введи пароль",
+    "passwordsMismatch": "Паролі не збігаються",
+    "confirmPasswordRequired": "Підтверди пароль"
+  },
+  "filters": {
+    "title": "Фільтри",
+    "sortByDate": "Сортувати за датою додавання",
+    "dogs": "Собаки",
+    "cats": "Коти",
+    "male": "Хлопець",
+    "female": "Дівчина",
+    "anySex": "Будь-хто",
+    "small": "Маленькі",
+    "medium": "Середні",
+    "big": "Великі",
+    "age": "Вік, роки",
+    "vaccination": "Вакцинація",
+    "showResults": "Показати варіанти",
+    "selectFromList": "Обери зі списку"
+  },
+  "home": {
+    "searchPlaceholder": "Пошук",
+    "nothingFound": "Нічого не знайдено"
+  },
+  "favorite": {
+    "empty": "Поки немає улюблених пухнастиків"
+  },
+  "pet": {
+    "age_one": "{{count}} рік",
+    "age_few": "{{count}} роки",
+    "age_many": "{{count}} років",
+    "age_other": "{{count}} року",
+    "characteristics": "Характеристики:",
+    "story": "Моя історія:",
+    "vaccinated": "Вакцинований",
+    "notVaccinated": "Не вакцинований",
+    "adopt": "Подарувати сім'ю",
+    "sex": {
+      "male": "Хлопець",
+      "female": "Дівчина"
+    },
+    "color": {
+      "black": "Чорний",
+      "white": "Білий",
+      "brown": "Коричневий",
+      "mixed": "Змішаний"
+    }
+  },
+  "adoption": {
+    "title": "Забрати хвостика додому",
+    "subtitle": "Залиш свої дані, і ми з тобою зв'яжемося",
+    "nameLabel": "Ім'я",
+    "namePlaceholder": "Введи своє ім'я",
+    "phoneLabel": "Телефон",
+    "emailLabel": "Email",
+    "emailPlaceholder": "Введи свою пошту",
+    "commentLabel": "Коментар",
+    "commentPlaceholder": "Залиш коментар",
+    "submit": "Забрати хвостика додому",
+    "successTitle": "Дякуємо за заявку!",
+    "successMessage": "Вітаємо! Ти на крок ближче до того, щоб завести собі пухнастого друга. Ми скоро зв'яжемося з тобою.",
+    "successButton": "Окей"
+  },
+  "error": {
+    "title": "Ой! Щось пішло не так",
+    "message": "Помилка: {{message}}",
+    "tryAgain": "Спробувати ще раз"
+  }
+}

@@ -1,14 +1,17 @@
 import * as Yup from 'yup';
+import type { TFunction } from 'i18next';
 
-export const RegistrationSchema = () =>
+export const RegistrationSchema = (t: TFunction) =>
   Yup.object({
-    email: Yup.string().email('Invalid Email').required('Email is empty'),
+    email: Yup.string()
+      .email(t('validation.emailInvalid'))
+      .required(t('validation.emailRequired')),
     password: Yup.string()
       .matches(new RegExp(/^.{8,100}$/), {
-        message: 'Password mast be mor then 8 symbols',
+        message: t('validation.passwordLength'),
       })
-      .required('Password is empty'),
+      .required(t('validation.passwordRequired')),
     confirmPassword: Yup.string()
-      .oneOf([Yup.ref('password')], 'Passwords must match')
-      .required('Confirm password is empty'),
+      .oneOf([Yup.ref('password')], t('validation.passwordsMismatch'))
+      .required(t('validation.confirmPasswordRequired')),
   });

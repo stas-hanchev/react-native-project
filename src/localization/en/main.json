@@ -1,0 +1,98 @@
+{
+  "drawer": {
+    "website": "Our website",
+    "language": "Language settings",
+    "logout": "Log out"
+  },
+  "languages": {
+    "uk": "Українська",
+    "en": "English",
+    "pl": "Polski"
+  },
+  "tabs": {
+    "home": "Pets",
+    "favorites": "Favorites"
+  },
+  "auth": {
+    "title": "Glad to see you!",
+    "welcome": "Every furry friend deserves caring owners.\nWe will help you find yours.",
+    "loginTab": "Log in",
+    "registrationTab": "Sign up",
+    "emailPlaceholder": "Email",
+    "passwordPlaceholder": "Password",
+    "confirmPasswordPlaceholder": "Confirm password",
+    "loginButton": "Log in",
+    "registrationButton": "Sign up"
+  },
+  "validation": {
+    "emailInvalid": "Invalid email",
+    "emailRequired": "Enter your email",
+    "emailInUse": "This email is already in use",
+    "passwordLength": "Password must be at least 8 characters long",
+    "passwordRequired": "Enter your password",
+    "passwordsMismatch": "Passwords do not match",
+    "confirmPasswordRequired": "Confirm your password"
+  },
+  "filters": {
+    "title": "Filters",
+    "sortByDate": "Sort by date added",
+    "dogs": "Dogs",
+    "cats": "Cats",
+    "male": "Boy",
+    "female": "Girl",
+    "anySex": "Any",
+    "small": "Small",
+    "medium": "Medium",
+    "big": "Big",
+    "age": "Age, years",
+    "vaccination": "Vaccination",
+    "showResults": "Show results",
+    "selectFromList": "Choose from the list"
+  },
+  "home": {
+    "searchPlaceholder": "Search",
+    "nothingFound": "Nothing found"
+  },
+  "favorite": {
+    "empty": "No favorite pets yet"
+  },
+  "pet": {
+    "age_one": "{{count}} year",
+    "age_other": "{{count}} years",
+    "characteristics": "Characteristics:",
+    "story": "My story:",
+    "vaccinated": "Vaccinated",
+    "notVaccinated": "Not vaccinated",
+    "adopt": "Give a family",
+    "sex": {
+      "male": "Boy",
+      "female": "Girl"
+    },
+    "color": {
+      "black": "Black",
+      "white": "White",
+      "brown": "Brown",
+      "mixed": "Mixed"
+    }
+  },
+  "adoption": {
+    "title": "Take a pet home",
+    "subtitle": "Leave your details and we will contact you",
+    "nameLabel": "Name",
+    "namePlaceholder": "Enter your name",
+    "phoneLabel": "Phone",
+    "emailLabel": "Email",
+    "emailPlaceholder": "Enter your email",
+    "commentLabel": "Comment",
+    "commentPlaceholder": "Leave a comment",
+    "submit": "Take a pet home",
+    "successTitle": "Thank you for your application!",
+    "successMessage": "Congratulations! You are one step closer to getting a furry friend. We will contact you soon.",
+    "successButton": "OK"
+  },
+  "error": {
+    "title": "Oops! Something went wrong",
+    "message": "Error: {{message}}",
+    "tryAgain": "Try again"
+  }
+}

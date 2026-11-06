@@ -12,6 +12,7 @@ import { ScreenNames } from '../../../constant/screenNames';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { LoggedInStackType } from '../../../navigation/types';
 import { SettingsProps } from '../../FilterSettings';
+import { useTranslation } from 'react-i18next';
 
 interface SearchBarProps {
     onSearch: (text: string) => void;
@@ -19,6 +20,7 @@ interface SearchBarProps {
 }
 
 export default function SearchBar({ onSearch, settings }: SearchBarProps) {
+  const { t } = useTranslation();
   const [name, setName] = useState('');
   const navigation =
     useNavigation<NativeStackNavigationProp<LoggedInStackType>>();
@@ -43,7 +45,7 @@ export default function SearchBar({ onSearch, settings }: SearchBarProps) {
         </View>
         <TextInput
           style={styles.input}
-          placeholder={'Пошук'}
+          placeholder={t('home.searchPlaceholder')}
           value={name}
           onChangeText={text => setName(text)}
         />

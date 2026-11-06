@@ -4,8 +4,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
 import PetsList from '../Home/components/PetsList';
 import type { Pet } from '../Home';
+import { useTranslation } from 'react-i18next';
 
 export default function Favorite() {
+  const { t } = useTranslation();
   const [favorites, setFavorites] = useState<Pet[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -31,7 +33,7 @@ export default function Favorite() {
       return <ActivityIndicator style={styles.loader} />;
     }
     if (!favorites.length) {
-      return <Text style={styles.emptyText}>No favorite pets yet</Text>;
+      return <Text style={styles.emptyText}>{t('favorite.empty')}</Text>;
     }
     return <PetsList pets={favorites} onFavoriteToggle={loadFavorites} />;
   };

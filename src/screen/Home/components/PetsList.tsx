@@ -16,6 +16,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { LoggedInStackType } from '../../../navigation/types';
 import { ScreenNames } from '../../../constant/screenNames';
 import { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export const handleToggleFavorite = async (pet: Pet) => {
   try {
@@ -41,6 +42,7 @@ interface PetsListProps {
 }
 
 export default function PetsList({ pets, onFavoriteToggle }: PetsListProps) {
+  const { t } = useTranslation();
   const navigation =
     useNavigation<NativeStackNavigationProp<LoggedInStackType>>();
 
@@ -106,7 +108,7 @@ export default function PetsList({ pets, onFavoriteToggle }: PetsListProps) {
                 </TouchableOpacity>
                 <View style={styles.textContainer}>
                   <Text style={styles.text}>{item.type}</Text>
-                  <Text style={styles.text}>{item.age} years</Text>
+                  <Text style={styles.text}>{t('pet.age', { count: item.age })}</Text>
                 </View>
               </View>
             </TouchableOpacity>

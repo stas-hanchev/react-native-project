@@ -9,6 +9,7 @@ import {
   getAuth,
   signInWithEmailAndPassword,
 } from '@react-native-firebase/auth';
+import { useTranslation } from 'react-i18next';
 
 interface IInputValue {
   email: string;
@@ -18,6 +19,7 @@ interface IInputValue {
 }
 
 export default function LoginPage() {
+  const { t } = useTranslation();
   const [inputValues, setInputValues] = useState<IInputValue>({
     email: '',
     password: '',
@@ -37,7 +39,7 @@ export default function LoginPage() {
       '^([a-z0-9._%-]+@[a-z0-9.-]+.[a-z]{2,6})*$',
     );
     if (!emailValidator.test(inputValues.email)) {
-      handleChangeInput('errorEmail', 'Not valid email');
+      handleChangeInput('errorEmail', t('validation.emailInvalid'));
     } else {
       handleChangeInput('errorEmail', null);
     }
@@ -47,7 +49,7 @@ export default function LoginPage() {
     if (text.length < 8) {
       handleChangeInput(
         'errorPassword',
-        'Password must be more then 8 symbols ',
+        t('validation.passwordLength'),
       );
     } else {
       handleChangeInput('errorPassword', null);
@@ -78,10 +80,10 @@ export default function LoginPage() {
           value={inputValues.email}
           onChangeText={text => handleChangeInput('email', text)}
           error={inputValues.errorEmail}
-          placeholder={'Email'}
+          placeholder={t('auth.emailPlaceholder')}
         />
         <Input
-          placeholder={'Password'}
+          placeholder={t('auth.passwordPlaceholder')}
           value={inputValues.password}
           onChangeText={text => {
             handleChangeInput('password', text);
@@ -95,7 +97,7 @@ export default function LoginPage() {
           onLogin(inputValues.email, inputValues.password);
         }}
         disabled={isDisabledLoginBtn}
-        text={'Увійти'}
+        text={t('auth.loginButton')}
       />
     </AuthLayout>
   );

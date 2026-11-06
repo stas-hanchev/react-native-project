@@ -16,6 +16,7 @@ import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {LoggedInStackType} from '../../navigation/types';
 import {ScreenNames} from '../../constant/screenNames';
+import { useTranslation } from 'react-i18next';
 
 export interface SettingsProps {
   sortByTime: boolean;
@@ -26,6 +27,7 @@ export interface SettingsProps {
   isVaccinate: boolean;
 }
 export default function FilterSettings() {
+  const { t } = useTranslation();
   const navigation =
     useNavigation<NativeStackNavigationProp<LoggedInStackType>>();
   const route =
@@ -79,37 +81,37 @@ export default function FilterSettings() {
             {settings.sortByTime && <View style={styles.checkedSortByTime} />}
           </View>
           <Text style={styles.sortByTimeText}>
-            Сортувати за датою додавання
+            {t('filters.sortByDate')}
           </Text>
         </TouchableOpacity>
         <SwitchBtn
           handleSwitch={handleSwitchAnimal}
           active={settings.selectedAnimal}
           items={[
-            {text: 'Собаки', id: true},
-            {text: 'Коти', id: false},
+            {text: t('filters.dogs'), id: true},
+            {text: t('filters.cats'), id: false},
           ]}
         />
         <SwitchBtn
           handleSwitch={handleSwitchSex}
           active={settings.selectedSex}
           items={[
-            {text: 'Хлопець', icon: <MaleIcon />, id: 'male'},
-            {text: 'Дівчина', icon: <FemaleIcon />, id: 'female'},
-            {text: 'Будь-хто', icon: <MaleAndFemaleIcon />, id: 'all'},
+            {text: t('filters.male'), icon: <MaleIcon />, id: 'male'},
+            {text: t('filters.female'), icon: <FemaleIcon />, id: 'female'},
+            {text: t('filters.anySex'), icon: <MaleAndFemaleIcon />, id: 'all'},
           ]}
         />
         <SwitchBtn
           handleSwitch={handleSwitchSize}
           active={settings.size}
           items={[
-            {text: 'Маленькі', id: 'small'},
-            {text: 'Середні', id: 'medium'},
-            {text: 'Великі', id: 'big'},
+            {text: t('filters.small'), id: 'small'},
+            {text: t('filters.medium'), id: 'medium'},
+            {text: t('filters.big'), id: 'big'},
           ]}
         />
         <View style={{gap: 5}}>
-          <Text style={styles.btnText}>Вік,роки</Text>
+          <Text style={styles.btnText}>{t('filters.age')}</Text>
           <View style={styles.searchWrapper}>
             <View style={styles.searchIconWrapper}>
               <SearchIcon />
@@ -130,7 +132,7 @@ export default function FilterSettings() {
         </View>
 
         <View style={styles.switcherContainer}>
-          <Text style={styles.btnText}>Вакцинація</Text>
+          <Text style={styles.btnText}>{t('filters.vaccination')}</Text>
           <TouchableOpacity
             style={[
               styles.switcherBtn,
@@ -158,7 +160,7 @@ export default function FilterSettings() {
               },
             });
           }}
-          text={'Показати варіанти'}
+          text={t('filters.showResults')}
         />
       </View>
     </ScrollView>

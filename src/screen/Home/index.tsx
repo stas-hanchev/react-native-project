@@ -15,6 +15,7 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import { SettingsProps } from '../FilterSettings';
 import { TabBarStackType } from '../../navigation/types';
 import { ScreenNames } from '../../constant/screenNames';
+import { useTranslation } from 'react-i18next';
 
 export interface Pet {
   id: string;
@@ -56,6 +57,7 @@ const getConstraints = (settings?: SettingsProps): QueryConstraint[] => {
 };
 
 export default function Home() {
+  const { t } = useTranslation();
   const [pets, setPets] = useState<Pet[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchText, setSearchText] = useState('');
@@ -121,7 +123,7 @@ export default function Home() {
       return <ActivityIndicator style={styles.loader} />;
     }
     if (!visiblePets.length) {
-      return <Text style={styles.emptyText}>Nothing found</Text>;
+      return <Text style={styles.emptyText}>{t('home.nothingFound')}</Text>;
     }
     return <PetsList pets={visiblePets} />;
   };

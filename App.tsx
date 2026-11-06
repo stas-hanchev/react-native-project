@@ -19,6 +19,7 @@ import {
 import RootNavigation from './src/navigation';
 
 import 'react-native-gesture-handler';
+import './src/localization';
 import SplashScreen from 'react-native-splash-screen';
 
 // import {

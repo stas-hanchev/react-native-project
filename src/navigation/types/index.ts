@@ -16,6 +16,7 @@ export type LoggedInStackType = {
     [ScreenNames.DRAWER_STACK]: NavigatorScreenParams<DrawerStackType>;
     [ScreenNames.FILTER_SETTINGS_PAGE]: { settings?: SettingsProps } | undefined;
     [ScreenNames.PET_PAGE]: { pet: Pet };
+    [ScreenNames.LANGUAGES_PAGE]: undefined;
 }
 
 export type LoggedOutStackType = {
