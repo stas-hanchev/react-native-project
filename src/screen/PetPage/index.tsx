@@ -15,16 +15,18 @@ import {
   ArrowIcon,
   CloseIcon,
   DogImage,
-  HeartIcon,
+  FavoriteIcon,
   LongArrowIcon,
   PlaceIcon,
 } from '../../assets/icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { LoggedInStackType } from '../../navigation/types';
 import { fonts } from '../../constant/fonts';
 import DefaultButton from '../../common/components/DefaultButton';
 import Input from '../../common/components/Input';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { handleToggleFavorite } from '../Home/components/PetsList';
 
 interface IFormInfo {
   name: string;
@@ -37,15 +39,21 @@ export default function PetPage() {
   const navigation =
     useNavigation<NativeStackNavigationProp<LoggedInStackType>>();
 
+  const [favorites, setFavorites] = useState<Pet[]>([]);
+
   const [sliderIndex, setSliderIndex] = useState<number>(0);
+
   const [formInfo, setFormInfo] = useState<IFormInfo>({
     name: '',
     phone: '',
     email: '',
     comment: '',
   });
+
   const [modalStep, setModalStep] = useState<'form' | 'success' | null>(null);
+
   const closeModal = () => setModalStep(null);
+
   const handleNext = () => {
     if (sliderIndex + 1 < route?.params?.pet?.images.length) {
       setSliderIndex(prevState => prevState + 1);
@@ -53,6 +61,7 @@ export default function PetPage() {
       setSliderIndex(0);
     }
   };
+
   const handlePrev = () => {
     if (sliderIndex - 1 >= 0) {
       setSliderIndex(prevState => prevState - 1);
@@ -60,9 +69,27 @@ export default function PetPage() {
       setSliderIndex(route?.params?.pet?.images.length);
     }
   };
+
   const handleEditForm = (key: string, value: string) => {
     setFormInfo(prevState => ({ ...prevState, [key]: value }));
   };
+
+  const getFavorites = async () => {
+    try {
+      const initialFavorites = await AsyncStorage.getItem('favorites');
+      if (initialFavorites) {
+        const result = JSON.parse(initialFavorites);
+        setFavorites(result);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getFavorites();
+  }, []);
+
   return (
     <ScrollView style={{ flex: 1 }}>
       <View>
@@ -120,8 +147,17 @@ export default function PetPage() {
                 </Text>
               </View>
             </View>
-            <TouchableOpacity style={styles.heartContainer}>
-              <HeartIcon />
+            <TouchableOpacity
+              style={styles.favoriteBtn}
+              onPress={() => {
+                handleToggleFavorite(route?.params?.pet).then(() =>
+                  getFavorites(),
+                );
+              }}
+            >
+              <FavoriteIcon
+                isFavorite={favorites.some(element => element.id === route?.params?.pet?.id)}
+              />
             </TouchableOpacity>
           </View>
           <View style={{ gap: 10, marginHorizontal: 10 }}>
@@ -372,4 +408,5 @@ const styles = StyleSheet.create({
     padding: 20,
     gap: 20,
   },
+  favoriteBtn: { alignSelf: 'flex-end', margin: 10 },
 });

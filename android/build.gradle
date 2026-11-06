@@ -6,6 +6,7 @@ buildscript {
         targetSdkVersion = 36
         ndkVersion = "27.1.12297006"
         kotlinVersion = "2.4.0"
+        kspVersion = "2.3.13"
     }
     repositories {
         google()
