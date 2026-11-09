@@ -1,7 +1,7 @@
 import AuthLayout from '../components/AuthLayout/index';
 import AuthHeader from '../components/AuthHeader/index';
 import styles from '../styles';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import Input from '../../../common/components/Input/index';
 import { Formik, FormikHelpers, FormikValues } from 'formik';
 import { RegistrationSchema } from '../utils/validation';
@@ -14,6 +14,7 @@ import {
 } from '@react-native-firebase/auth';
 import type { ReactNativeFirebase } from '@react-native-firebase/app';
 import { useTranslation } from 'react-i18next';
+import { getAuthErrorKey } from '../utils/authErrors';
 
 interface IRegistrationValues {
   email: string;
@@ -34,22 +35,31 @@ export default function Registration() {
     password: false,
     confirmPassword: false,
   });
+  const [registrationErrorKey, setRegistrationErrorKey] = useState<
+    string | null
+  >(null);
 
   const registrateUser = async (
     email: string,
     password: string,
     formikHelpers: FormikHelpers<IRegistrationValues>,
   ) => {
+    setRegistrationErrorKey(null);
     try {
-      await createUserWithEmailAndPassword(getAuth(), email, password);
+      await createUserWithEmailAndPassword(getAuth(), email.trim(), password);
     } catch (error) {
       if (
         (error as ReactNativeFirebase.NativeFirebaseError).code ===
         'auth/email-already-in-use'
       ) {
         formikHelpers.setFieldError('email', t('validation.emailInUse'));
+      } else {
+        setRegistrationErrorKey(
+          getAuthErrorKey(error, 'validation.registrationFailed'),
+        );
       }
-      console.error(error);
+    } finally {
+      formikHelpers.setSubmitting(false);
     }
   };
 
@@ -72,6 +82,7 @@ export default function Registration() {
           setFieldValue,
           handleSubmit,
           isValid,
+          isSubmitting,
           errors,
         }: FormikValues) => (
           <>
@@ -86,6 +97,8 @@ export default function Registration() {
                 }}
                 placeholder={t('auth.emailPlaceholder')}
                 error={touched.email && errors.email}
+                keyboardType={'email-address'}
+                autoCapitalize={'none'}
               />
               <Input
                 onFocus={() =>
@@ -97,6 +110,8 @@ export default function Registration() {
                 }}
                 placeholder={t('auth.passwordPlaceholder')}
                 error={touched.password && errors.password}
+                secureTextEntry={true}
+                autoCapitalize={'none'}
               />
               <Input
                 onFocus={() =>
@@ -111,10 +126,16 @@ export default function Registration() {
                 }}
                 placeholder={t('auth.confirmPasswordPlaceholder')}
                 error={touched.confirmPassword && errors.confirmPassword}
+                secureTextEntry={true}
+                autoCapitalize={'none'}
               />
+              {!!registrationErrorKey && (
+                <Text style={styles.errorText}>{t(registrationErrorKey)}</Text>
+              )}
             </View>
             <DefaultButton
               disabled={
+                isSubmitting ||
                 !isValid ||
                 !values.email ||
                 !values.password ||

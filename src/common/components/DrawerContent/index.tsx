@@ -13,10 +13,12 @@ export default function DrawerContent({ navigation }: DrawerContentComponentProp
   const loggedInNavigation = useNavigation<NativeStackNavigationProp<LoggedInStackType>>();
   
   const navigateToLanguages = () => {
+    navigation.closeDrawer();
     loggedInNavigation.navigate(ScreenNames.LANGUAGES_PAGE);
   };
 
   const navigateToWebPage = () => {
+    navigation.closeDrawer();
     loggedInNavigation.navigate(ScreenNames.WEB_PAGE);
   };
 

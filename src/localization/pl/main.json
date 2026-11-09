@@ -31,7 +31,13 @@
     "passwordLength": "Hasło musi mieć co najmniej 8 znaków",
     "passwordRequired": "Wpisz hasło",
     "passwordsMismatch": "Hasła nie są takie same",
-    "confirmPasswordRequired": "Potwierdź hasło"
+    "confirmPasswordRequired": "Potwierdź hasło",
+    "invalidCredentials": "Nieprawidłowy e-mail lub hasło",
+    "tooManyRequests": "Zbyt wiele prób. Spróbuj później",
+    "networkError": "Brak połączenia z internetem",
+    "loginFailed": "Nie udało się zalogować. Spróbuj ponownie",
+    "registrationFailed": "Nie udało się zarejestrować. Spróbuj ponownie",
+    "phoneInvalid": "Nieprawidłowy numer telefonu"
   },
   "filters": {
     "title": "Filtry",
@@ -47,7 +53,9 @@
     "age": "Wiek, lata",
     "vaccination": "Szczepienie",
     "showResults": "Pokaż wyniki",
-    "selectFromList": "Wybierz z listy"
+    "selectFromList": "Wybierz z listy",
+    "agePlaceholder": "Dowolny",
+    "reset": "Wyczyść filtry"
   },
   "home": {
     "searchPlaceholder": "Szukaj",

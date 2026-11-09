@@ -31,7 +31,13 @@
     "passwordLength": "Пароль має містити щонайменше 8 символів",
     "passwordRequired": "Введи пароль",
     "passwordsMismatch": "Паролі не збігаються",
-    "confirmPasswordRequired": "Підтверди пароль"
+    "confirmPasswordRequired": "Підтверди пароль",
+    "invalidCredentials": "Невірний email або пароль",
+    "tooManyRequests": "Забагато спроб. Спробуй пізніше",
+    "networkError": "Немає з'єднання з інтернетом",
+    "loginFailed": "Не вдалося увійти. Спробуй ще раз",
+    "registrationFailed": "Не вдалося зареєструватися. Спробуй ще раз",
+    "phoneInvalid": "Некоректний номер телефону"
   },
   "filters": {
     "title": "Фільтри",
@@ -47,7 +53,9 @@
     "age": "Вік, роки",
     "vaccination": "Вакцинація",
     "showResults": "Показати варіанти",
-    "selectFromList": "Обери зі списку"
+    "selectFromList": "Обери зі списку",
+    "agePlaceholder": "Будь-який",
+    "reset": "Скинути фільтри"
   },
   "home": {
     "searchPlaceholder": "Пошук",

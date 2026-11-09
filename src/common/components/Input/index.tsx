@@ -1,4 +1,12 @@
-import {Text, TextInput, TouchableOpacity, View, ViewStyle} from 'react-native';
+import {
+  KeyboardTypeOptions,
+  Text,
+  TextInput,
+  TextInputProps,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
 import styles from '../../../screen/Auth/styles';
 import React, {useState} from 'react';
 import {HidePassIcon, ViewPassIcon} from '../../../assets/icons/index';
@@ -16,6 +24,8 @@ interface IInput {
   onFocus?: () => void;
   multiline?: boolean;
   numberOfLines?: number;
+  keyboardType?: KeyboardTypeOptions;
+  autoCapitalize?: TextInputProps['autoCapitalize'];
 }
 export default function Input({
   onBlur,
@@ -30,6 +40,8 @@ export default function Input({
   onFocus,
   multiline,
   numberOfLines,
+  keyboardType,
+  autoCapitalize,
 }: IInput) {
   const [isPassHidden, setIsPassHidden] = useState(secureTextEntry);
 
@@ -47,6 +59,8 @@ export default function Input({
           secureTextEntry={isPassHidden}
           multiline={multiline}
           numberOfLines={numberOfLines}
+          keyboardType={keyboardType}
+          autoCapitalize={autoCapitalize}
         />
         {secureTextEntry && (
           <TouchableOpacity
@@ -62,7 +76,7 @@ export default function Input({
           </TouchableOpacity>
         )}
       </View>
-      {!!error && <Text>{error}</Text>}
+      {!!error && <Text style={styles.errorText}>{error}</Text>}
     </>
   );
 }

@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getFavorites, toggleFavorite } from '../../../common/utils/favorites';
 import type { Pet } from '../index';
 import { fonts } from '../../../assets/fonts';
 import { FavoriteIcon } from '../../../assets/icons';
@@ -17,24 +17,6 @@ import { LoggedInStackType } from '../../../navigation/types';
 import { ScreenNames } from '../../../constant/screenNames';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
-export const handleToggleFavorite = async (pet: Pet) => {
-  try {
-    const storedFavorites = await AsyncStorage.getItem('favorites');
-    const prevFavorites: Pet[] = storedFavorites
-      ? JSON.parse(storedFavorites)
-      : [];
-
-    const isFavorite = prevFavorites.some(favorite => favorite.id === pet.id);
-    const nextFavorites = isFavorite
-      ? prevFavorites.filter(favorite => favorite.id !== pet.id)
-      : [...prevFavorites, pet];
-
-    await AsyncStorage.setItem('favorites', JSON.stringify(nextFavorites));
-  } catch (error) {
-    console.error(error);
-  }
-};
 
 interface PetsListProps {
   pets: Pet[];
@@ -52,25 +34,15 @@ export default function PetsList({ pets, onFavoriteToggle }: PetsListProps) {
     navigation.navigate(ScreenNames.PET_PAGE, { pet: item });
   };
 
-  const getFavorites = async () => {
-    try {
-      const initialFavorites = await AsyncStorage.getItem('favorites');
-      if (initialFavorites) {
-        const result = JSON.parse(initialFavorites);
-        setFavorites(result);
-      }
-    } catch (error) {
-      console.error(error);
-    }
+  const refreshFavorites = async () => {
+    setFavorites(await getFavorites());
   };
 
   useFocusEffect(
     useCallback(() => {
-      getFavorites();
+      refreshFavorites();
     }, []),
   );
-
-  console.log('Favorites', favorites);
 
   return (
     <View style={styles.flex}>
@@ -94,8 +66,8 @@ export default function PetsList({ pets, onFavoriteToggle }: PetsListProps) {
                 <TouchableOpacity
                   style={styles.favoriteBtn}
                   onPress={() => {
-                    handleToggleFavorite(item).then(() => {
-                      getFavorites();
+                    toggleFavorite(item).then(() => {
+                      refreshFavorites();
                       onFavoriteToggle?.();
                     });
                   }}

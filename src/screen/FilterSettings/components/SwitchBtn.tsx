@@ -24,7 +24,7 @@ export default function SwitchBtn<T extends string | boolean>({
           onPress={() => handleSwitch(e)}
           style={active === e.id ? styles.activeBtn : styles.nonActiveBtn}>
           {!!e.icon && <View style={styles.iconContainer}>{e.icon}</View>}
-          <View style={[styles.textContainer, !!e.icon && {flex: 0.8}]}>
+          <View style={[styles.textContainer, !!e.icon && styles.textWithIcon]}>
             <Text style={styles.btnText} numberOfLines={1} adjustsFontSizeToFit>
               {e.text}
             </Text>
@@ -68,4 +68,5 @@ const styles = StyleSheet.create({
   },
   iconContainer: {flex: 0.05},
   textContainer: {flex: 1, alignItems: 'center', justifyContent: 'center'},
+  textWithIcon: {flex: 0.8},
 });

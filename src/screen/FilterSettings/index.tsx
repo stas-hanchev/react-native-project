@@ -26,6 +26,16 @@ export interface SettingsProps {
   age: string;
   isVaccinate: boolean;
 }
+
+const DEFAULT_SETTINGS: SettingsProps = {
+  sortByTime: false,
+  selectedAnimal: true,
+  selectedSex: 'male',
+  size: 'small',
+  age: '1',
+  isVaccinate: false,
+};
+
 export default function FilterSettings() {
   const { t } = useTranslation();
   const navigation =
@@ -33,15 +43,23 @@ export default function FilterSettings() {
   const route =
     useRoute<RouteProp<LoggedInStackType, ScreenNames.FILTER_SETTINGS_PAGE>>();
   const [settings, setSettings] = useState<SettingsProps>(
-    route.params?.settings ?? {
-      sortByTime: false,
-      selectedAnimal: true,
-      selectedSex: 'male',
-      size: 'small',
-      age: '1',
-      isVaccinate: false,
-    },
+    route.params?.settings ?? DEFAULT_SETTINGS,
   );
+
+  const showResults = (nextSettings?: SettingsProps) => {
+    navigation.navigate(ScreenNames.DRAWER_STACK, {
+      screen: ScreenNames.TAB_BAR_STACK,
+      params: {
+        screen: ScreenNames.HOME_PAGE,
+        params: {settings: nextSettings},
+      },
+    });
+  };
+
+  const handleReset = () => {
+    setSettings(DEFAULT_SETTINGS);
+    showResults();
+  };
   const handleSwitchAnimal = (animal: {id: boolean}) => {
     setSettings(prevState => ({
       ...prevState,
@@ -69,9 +87,9 @@ export default function FilterSettings() {
 
   return (
     <ScrollView
-      style={{margin: 10, gap: 20}}
+      style={styles.container}
       keyboardShouldPersistTaps={'handled'}>
-      <View style={{gap: 20}}>
+      <View style={styles.content}>
         <TouchableOpacity
           onPress={() => {
             onSortByTime();
@@ -110,7 +128,7 @@ export default function FilterSettings() {
             {text: t('filters.big'), id: 'big'},
           ]}
         />
-        <View style={{gap: 5}}>
+        <View style={styles.ageWrapper}>
           <Text style={styles.btnText}>{t('filters.age')}</Text>
           <View style={styles.searchWrapper}>
             <View style={styles.searchIconWrapper}>
@@ -118,7 +136,8 @@ export default function FilterSettings() {
             </View>
             <TextInput
               style={styles.input}
-              placeholder={'1'}
+              placeholder={t('filters.agePlaceholder')}
+              placeholderTextColor={'#838383'}
               keyboardType={'numeric'}
               value={settings.age.toString()}
               onChangeText={text =>
@@ -136,10 +155,7 @@ export default function FilterSettings() {
           <TouchableOpacity
             style={[
               styles.switcherBtn,
-              settings.isVaccinate && {
-                alignItems: 'flex-end',
-                backgroundColor: '#D0CBF1',
-              },
+              settings.isVaccinate && styles.switcherBtnActive,
             ]}
             onPress={() => {
               setSettings(prevState => ({
@@ -151,22 +167,29 @@ export default function FilterSettings() {
           </TouchableOpacity>
         </View>
         <DefaultButton
-          onPress={() => {
-            navigation.navigate(ScreenNames.DRAWER_STACK, {
-              screen: ScreenNames.TAB_BAR_STACK,
-              params: {
-                screen: ScreenNames.HOME_PAGE,
-                params: {settings},
-              },
-            });
-          }}
+          onPress={() => showResults(settings)}
           text={t('filters.showResults')}
         />
+        <TouchableOpacity style={styles.resetBtn} onPress={handleReset}>
+          <Text style={styles.resetText}>{t('filters.reset')}</Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );
 }
 const styles = StyleSheet.create({
+  container: {margin: 10, gap: 20},
+  content: {gap: 20},
+  ageWrapper: {gap: 5},
+  switcherBtnActive: {alignItems: 'flex-end', backgroundColor: '#D0CBF1'},
+  resetBtn: {
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: '#7A71BA',
+    paddingVertical: 12,
+    alignItems: 'center',
+  },
+  resetText: {color: '#7A71BA'},
   sortByTimeBtn: {flexDirection: 'row', gap: 10, alignItems: 'center'},
   activeSortByTime: {
     borderRadius: 50,

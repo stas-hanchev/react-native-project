@@ -11,7 +11,7 @@ interface ISearchInput {
 export default function SearchInput({onSearch, value, title}: ISearchInput) {
   const { t } = useTranslation();
   return (
-    <View style={{gap: 5}}>
+    <View style={styles.wrapper}>
       <Text style={styles.btnText}>{title}</Text>
       <View style={styles.selectSearch}>
         <View style={styles.searchIconWrapper}>
@@ -28,6 +28,7 @@ export default function SearchInput({onSearch, value, title}: ISearchInput) {
   );
 }
 const styles = StyleSheet.create({
+  wrapper: {gap: 5},
   searchIconWrapper: {marginHorizontal: 20},
 
   btnText: {fontFamily: fonts.MontserratRegular, color: '#0B0B0B'},

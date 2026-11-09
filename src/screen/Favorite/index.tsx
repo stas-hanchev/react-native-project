@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getFavorites } from '../../common/utils/favorites';
 import { useFocusEffect } from '@react-navigation/native';
 import PetsList from '../Home/components/PetsList';
 import type { Pet } from '../Home';
@@ -12,14 +12,8 @@ export default function Favorite() {
   const [isLoading, setIsLoading] = useState(true);
 
   const loadFavorites = useCallback(async () => {
-    try {
-      const storedFavorites = await AsyncStorage.getItem('favorites');
-      setFavorites(storedFavorites ? JSON.parse(storedFavorites) : []);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
+    setFavorites(await getFavorites());
+    setIsLoading(false);
   }, []);
 
   useFocusEffect(

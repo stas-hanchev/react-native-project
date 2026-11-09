@@ -91,4 +91,7 @@ export default StyleSheet.create({
   loginText: {
     color: 'white',
   },
+  errorText: {
+    color: '#D32F2F',
+  },
 });

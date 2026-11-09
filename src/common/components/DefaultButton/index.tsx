@@ -1,4 +1,4 @@
-import {Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import styles from '../../../screen/Auth/styles';
 import React from 'react';
 
@@ -14,10 +14,14 @@ export default function DefaultButton({
 }: IDefaultButton) {
   return (
     <TouchableOpacity
-      style={[styles.loginBtnContainer, disabled && {opacity: 0.5}]}
+      style={[styles.loginBtnContainer, disabled && buttonStyles.disabled]}
       disabled={disabled}
       onPress={onPress}>
       <Text style={styles.loginText}>{text}</Text>
     </TouchableOpacity>
   );
 }
+
+const buttonStyles = StyleSheet.create({
+  disabled: {opacity: 0.5},
+});

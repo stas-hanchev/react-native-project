@@ -1,4 +1,4 @@
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import DefaultButton from '../../DefaultButton';
 import { fonts } from '../../../../constant/fonts';
 import { useTranslation } from 'react-i18next';
@@ -14,19 +14,11 @@ export default function ErrorFallBack({
 }: ErrorFallBackProps) {
   const { t } = useTranslation();
   return (
-    <View
-      style={{
-        alignItems: 'center',
-        justifyContent: 'center',
-        margin: 20,
-        flex: 1,
-      }}>
-      <View style={{width: '100%', gap: 20}}>
-        <Text style={{fontFamily: fonts.ComfortaaRegular, fontSize: 24}}>
-          {t('error.title')}
-        </Text>
+    <View style={styles.container}>
+      <View style={styles.content}>
+        <Text style={styles.title}>{t('error.title')}</Text>
         {__DEV__ && (
-          <Text style={{fontFamily: fonts.MontserratSemiBold}}>
+          <Text style={styles.message}>
             {t('error.message', { message: error.message })}
           </Text>
         )}
@@ -35,3 +27,15 @@ export default function ErrorFallBack({
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 20,
+    flex: 1,
+  },
+  content: { width: '100%', gap: 20 },
+  title: { fontFamily: fonts.ComfortaaRegular, fontSize: 24 },
+  message: { fontFamily: fonts.MontserratSemiBold },
+});

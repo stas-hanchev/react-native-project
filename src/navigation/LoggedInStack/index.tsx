@@ -10,6 +10,8 @@ import WebPage from '../../screen/WebPage';
 
 const Stack = createNativeStackNavigator<LoggedInStackType>();
 
+const renderSettingsHeader = () => <SettingsHeader />;
+
 export default function LoggedInStack() {
   return (
     <Stack.Navigator
@@ -20,7 +22,7 @@ export default function LoggedInStack() {
       <Stack.Screen
         options={{
           headerShown: true,
-          header: () => <SettingsHeader />,
+          header: renderSettingsHeader,
         }}
         name={ScreenNames.FILTER_SETTINGS_PAGE}
         component={FilterSettings}

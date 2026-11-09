@@ -25,8 +25,8 @@ import { LoggedInStackType } from '../../navigation/types';
 import { fonts } from '../../constant/fonts';
 import DefaultButton from '../../common/components/DefaultButton';
 import Input from '../../common/components/Input';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { handleToggleFavorite } from '../Home/components/PetsList';
+import { getFavorites, toggleFavorite } from '../../common/utils/favorites';
+import { isEmailValid, isPhoneValid } from '../../constant/validation';
 import { useTranslation } from 'react-i18next';
 
 interface IFormInfo {
@@ -35,6 +35,19 @@ interface IFormInfo {
   email: string;
   comment: string;
 }
+
+interface IFormErrors {
+  phone?: string;
+  email?: string;
+}
+
+const initialFormInfo: IFormInfo = {
+  name: '',
+  phone: '',
+  email: '',
+  comment: '',
+};
+
 export default function PetPage() {
   const { t } = useTranslation();
   const route = useRoute<RouteProp<{ params: { pet: Pet } }>>();
@@ -45,12 +58,8 @@ export default function PetPage() {
 
   const [sliderIndex, setSliderIndex] = useState<number>(0);
 
-  const [formInfo, setFormInfo] = useState<IFormInfo>({
-    name: '',
-    phone: '',
-    email: '',
-    comment: '',
-  });
+  const [formInfo, setFormInfo] = useState<IFormInfo>(initialFormInfo);
+  const [formErrors, setFormErrors] = useState<IFormErrors>({});
 
   const [modalStep, setModalStep] = useState<'form' | 'success' | null>(null);
 
@@ -72,28 +81,37 @@ export default function PetPage() {
     }
   };
 
-  const handleEditForm = (key: string, value: string) => {
+  const handleEditForm = (key: keyof IFormInfo, value: string) => {
     setFormInfo(prevState => ({ ...prevState, [key]: value }));
+    setFormErrors(prevState => ({ ...prevState, [key]: undefined }));
   };
 
-  const getFavorites = async () => {
-    try {
-      const initialFavorites = await AsyncStorage.getItem('favorites');
-      if (initialFavorites) {
-        const result = JSON.parse(initialFavorites);
-        setFavorites(result);
-      }
-    } catch (error) {
-      console.error(error);
+  const handleSubmitForm = () => {
+    const errors: IFormErrors = {};
+    if (!isPhoneValid(formInfo.phone)) {
+      errors.phone = 'validation.phoneInvalid';
     }
+    if (!isEmailValid(formInfo.email)) {
+      errors.email = 'validation.emailInvalid';
+    }
+    setFormErrors(errors);
+    if (errors.phone || errors.email) {
+      return;
+    }
+    setFormInfo(initialFormInfo);
+    setModalStep('success');
+  };
+
+  const refreshFavorites = async () => {
+    setFavorites(await getFavorites());
   };
 
   useEffect(() => {
-    getFavorites();
+    refreshFavorites();
   }, []);
 
   return (
-    <ScrollView style={{ flex: 1 }}>
+    <ScrollView style={styles.flex}>
       <View>
         <View style={styles.imgBackground}>
           <Image
@@ -124,7 +142,7 @@ export default function PetPage() {
                     key={index}
                     style={[
                       styles.activeDot,
-                      index !== sliderIndex && { opacity: 0.5 },
+                      index !== sliderIndex && styles.inactiveDot,
                     ]}
                   />
                 ))}
@@ -138,7 +156,7 @@ export default function PetPage() {
             </View>
           </View>
         </View>
-        <View style={{ margin: 10, gap: 10 }}>
+        <View style={styles.content}>
           <View style={styles.titleContainer}>
             <View>
               <Text style={styles.titleText}>{route?.params?.pet?.name}</Text>
@@ -152,18 +170,18 @@ export default function PetPage() {
             <TouchableOpacity
               style={styles.favoriteBtn}
               onPress={() => {
-                handleToggleFavorite(route?.params?.pet).then(() =>
-                  getFavorites(),
-                );
+                toggleFavorite(route?.params?.pet).then(refreshFavorites);
               }}
             >
               <FavoriteIcon
-                isFavorite={favorites.some(element => element.id === route?.params?.pet?.id)}
+                isFavorite={favorites.some(
+                  element => element.id === route?.params?.pet?.id,
+                )}
               />
             </TouchableOpacity>
           </View>
-          <View style={{ gap: 10, marginHorizontal: 10 }}>
-            <Text style={[styles.titleText, { fontSize: 18 }]}>
+          <View style={styles.characteristics}>
+            <Text style={[styles.titleText, styles.sectionTitle]}>
               {t('pet.characteristics')}
             </Text>
             <View style={styles.characterContainer}>
@@ -200,8 +218,8 @@ export default function PetPage() {
               </View>
             </View>
           </View>
-          <View style={{ margin: 10, gap: 10 }}>
-            <Text style={[styles.titleText, { fontSize: 18 }]}>
+          <View style={styles.content}>
+            <Text style={[styles.titleText, styles.sectionTitle]}>
               {t('pet.story')}
             </Text>
             <View>
@@ -226,14 +244,10 @@ export default function PetPage() {
           <Pressable style={styles.modalBackdrop} onPress={closeModal} />
           {modalStep === 'form' && (
             <View style={styles.modalContainer}>
-              <View style={{ flexDirection: 'row' }}>
-                <View style={{ gap: 10 }}>
-                  <Text
-                    style={{ fontFamily: fonts.ComfortaaRegular, fontSize: 24 }}
-                  >
-                    {t('adoption.title')}
-                  </Text>
-                  <Text style={{ fontFamily: fonts.MontserratRegular }}>
+              <View style={styles.row}>
+                <View style={styles.modalHeader}>
+                  <Text style={styles.modalTitle}>{t('adoption.title')}</Text>
+                  <Text style={styles.modalText}>
                     {t('adoption.subtitle')}
                   </Text>
                 </View>
@@ -256,6 +270,8 @@ export default function PetPage() {
                 <Input
                   value={formInfo.phone}
                   placeholder={'+380'}
+                  keyboardType={'phone-pad'}
+                  error={formErrors.phone && t(formErrors.phone)}
                   onChangeText={text => {
                     handleEditForm('phone', text);
                   }}
@@ -266,6 +282,9 @@ export default function PetPage() {
                 <Input
                   value={formInfo.email}
                   placeholder={t('adoption.emailPlaceholder')}
+                  keyboardType={'email-address'}
+                  autoCapitalize={'none'}
+                  error={formErrors.email && t(formErrors.email)}
                   onChangeText={text => {
                     handleEditForm('email', text);
                   }}
@@ -281,42 +300,44 @@ export default function PetPage() {
                   }}
                   multiline={true}
                   numberOfLines={3}
-                  additionalContainerStyle={{
-                    height: 100,
-                    alignItems: 'flex-start',
-                  }}
+                  additionalContainerStyle={styles.commentInput}
                 />
               </View>
               <DefaultButton
-                disabled={!formInfo.email || !formInfo.phone || !formInfo.name}
-                onPress={() => setModalStep('success')}
+                disabled={
+                  !formInfo.email.trim() ||
+                  !formInfo.phone.trim() ||
+                  !formInfo.name.trim()
+                }
+                onPress={handleSubmitForm}
                 text={t('adoption.submit')}
               />
             </View>
           )}
           {modalStep === 'success' && (
-            <View style={[styles.modalContainer, { height: 300 }]}>
-              <View style={{ flexDirection: 'row' }}>
+            <View style={styles.modalContainer}>
+              <View style={styles.row}>
                 <Image
                   source={DogImage}
-                  style={{ width: 80, height: 80, flex: 1 }}
+                  style={styles.successImage}
                   resizeMode={'contain'}
                 />
                 <TouchableOpacity onPress={closeModal}>
                   <CloseIcon />
                 </TouchableOpacity>
               </View>
-              <View style={{ gap: 10, alignItems: 'center' }}>
-                <Text
-                  style={{ fontFamily: fonts.ComfortaaRegular, fontSize: 24 }}
-                >
+              <View style={styles.successContent}>
+                <Text style={styles.modalTitle}>
                   {t('adoption.successTitle')}
                 </Text>
-                <Text style={{ fontFamily: fonts.MontserratRegular }}>
+                <Text style={styles.modalText}>
                   {t('adoption.successMessage')}
                 </Text>
               </View>
-              <DefaultButton onPress={closeModal} text={t('adoption.successButton')} />
+              <DefaultButton
+                onPress={closeModal}
+                text={t('adoption.successButton')}
+              />
             </View>
           )}
         </KeyboardAvoidingView>
@@ -326,6 +347,7 @@ export default function PetPage() {
 }
 
 const styles = StyleSheet.create({
+  flex: { flex: 1 },
   imgBackground: { width: '100%', height: 400 },
   mainContainer: {
     padding: 10,
@@ -356,6 +378,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     backgroundColor: 'white',
   },
+  inactiveDot: { opacity: 0.5 },
   dotWrapper: { flexDirection: 'row', gap: 3 },
   sliderBtnRight: {
     alignItems: 'center',
@@ -365,6 +388,7 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 10,
   },
+  content: { margin: 10, gap: 10 },
   titleContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -372,21 +396,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   titleText: { fontFamily: fonts.ComfortaaRegular, fontSize: 24 },
+  sectionTitle: { fontSize: 18 },
+  characteristics: { gap: 10, marginHorizontal: 10 },
   iconContainer: { flexDirection: 'row', gap: 10, alignItems: 'center' },
   locationText: {
     fontFamily: fonts.MontserratRegular,
     fontSize: 16,
     color: '#838383',
-  },
-  heartContainer: {
-    alignSelf: 'flex-start',
-    height: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 40,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#EAE9FB',
   },
   characterWrapper: {
     borderRadius: 50,
@@ -407,11 +423,17 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     width: '100%',
-    height: 600,
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 20,
     gap: 20,
   },
+  row: { flexDirection: 'row' },
+  modalHeader: { flex: 1, gap: 10 },
+  modalTitle: { fontFamily: fonts.ComfortaaRegular, fontSize: 24 },
+  modalText: { fontFamily: fonts.MontserratRegular },
+  commentInput: { height: 100, alignItems: 'flex-start' },
+  successImage: { width: 80, height: 80, flex: 1 },
+  successContent: { gap: 10, alignItems: 'center' },
   favoriteBtn: { alignSelf: 'flex-end', margin: 10 },
 });

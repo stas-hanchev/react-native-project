@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import React, { useState } from 'react';
 import styles from '../styles';
 import AuthHeader from '../components/AuthHeader/index';
@@ -10,6 +10,8 @@ import {
   signInWithEmailAndPassword,
 } from '@react-native-firebase/auth';
 import { useTranslation } from 'react-i18next';
+import { isEmailValid, isPasswordValid } from '../../../constant/validation';
+import { getAuthErrorKey } from '../utils/authErrors';
 
 interface IInputValue {
   email: string;
@@ -26,6 +28,8 @@ export default function LoginPage() {
     errorEmail: null,
     errorPassword: null,
   });
+  const [loginErrorKey, setLoginErrorKey] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChangeInput = (
     key: 'email' | 'password' | 'errorEmail' | 'errorPassword',
@@ -34,40 +38,54 @@ export default function LoginPage() {
     setInputValues(prevState => ({ ...prevState, [key]: value }));
   };
 
-  const checkEmail = () => {
-    const emailValidator = new RegExp(
-      '^([a-z0-9._%-]+@[a-z0-9.-]+.[a-z]{2,6})*$',
+  const checkEmail = (email: string) => {
+    handleChangeInput(
+      'errorEmail',
+      isEmailValid(email) ? null : t('validation.emailInvalid'),
     );
-    if (!emailValidator.test(inputValues.email)) {
-      handleChangeInput('errorEmail', t('validation.emailInvalid'));
-    } else {
-      handleChangeInput('errorEmail', null);
+  };
+
+  const checkPassword = (password: string) => {
+    handleChangeInput(
+      'errorPassword',
+      isPasswordValid(password) ? null : t('validation.passwordLength'),
+    );
+  };
+
+  const onChangeEmail = (text: string) => {
+    handleChangeInput('email', text);
+    setLoginErrorKey(null);
+    if (inputValues.errorEmail) {
+      checkEmail(text);
     }
   };
 
-  const checkPassword = (text: string) => {
-    if (text.length < 8) {
-      handleChangeInput(
-        'errorPassword',
-        t('validation.passwordLength'),
-      );
-    } else {
-      handleChangeInput('errorPassword', null);
+  const onChangePassword = (text: string) => {
+    handleChangeInput('password', text);
+    setLoginErrorKey(null);
+    if (inputValues.errorPassword) {
+      checkPassword(text);
     }
   };
 
-  const isDisabledLoginBtn = Boolean(
-    inputValues.errorEmail ||
-      inputValues.errorPassword ||
-      !inputValues.email ||
-      !inputValues.password,
-  );
+  const isDisabledLoginBtn =
+    isSubmitting ||
+    !isEmailValid(inputValues.email) ||
+    !isPasswordValid(inputValues.password);
 
-  const onLogin = async (email: string, password: string) => {
+  const onLogin = async () => {
+    setIsSubmitting(true);
+    setLoginErrorKey(null);
     try {
-      await signInWithEmailAndPassword(getAuth(), email, password);
+      await signInWithEmailAndPassword(
+        getAuth(),
+        inputValues.email.trim(),
+        inputValues.password,
+      );
     } catch (error) {
-      console.error(error);
+      setLoginErrorKey(getAuthErrorKey(error, 'validation.loginFailed'));
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -76,26 +94,29 @@ export default function LoginPage() {
       <AuthHeader activeTab={'login'} />
       <View style={styles.formContainer}>
         <Input
-          onBlur={checkEmail}
+          onBlur={() => checkEmail(inputValues.email)}
           value={inputValues.email}
-          onChangeText={text => handleChangeInput('email', text)}
+          onChangeText={onChangeEmail}
           error={inputValues.errorEmail}
           placeholder={t('auth.emailPlaceholder')}
+          keyboardType={'email-address'}
+          autoCapitalize={'none'}
         />
         <Input
+          onBlur={() => checkPassword(inputValues.password)}
           placeholder={t('auth.passwordPlaceholder')}
           value={inputValues.password}
-          onChangeText={text => {
-            handleChangeInput('password', text);
-            checkPassword(text);
-          }}
+          onChangeText={onChangePassword}
+          error={inputValues.errorPassword}
           secureTextEntry={true}
+          autoCapitalize={'none'}
         />
+        {!!loginErrorKey && (
+          <Text style={styles.errorText}>{t(loginErrorKey)}</Text>
+        )}
       </View>
       <DefaultButton
-        onPress={() => {
-          onLogin(inputValues.email, inputValues.password);
-        }}
+        onPress={onLogin}
         disabled={isDisabledLoginBtn}
         text={t('auth.loginButton')}
       />

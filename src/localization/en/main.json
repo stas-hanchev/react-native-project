@@ -31,7 +31,13 @@
     "passwordLength": "Password must be at least 8 characters long",
     "passwordRequired": "Enter your password",
     "passwordsMismatch": "Passwords do not match",
-    "confirmPasswordRequired": "Confirm your password"
+    "confirmPasswordRequired": "Confirm your password",
+    "invalidCredentials": "Incorrect email or password",
+    "tooManyRequests": "Too many attempts. Try again later",
+    "networkError": "No internet connection",
+    "loginFailed": "Could not log in. Please try again",
+    "registrationFailed": "Could not sign up. Please try again",
+    "phoneInvalid": "Invalid phone number"
   },
   "filters": {
     "title": "Filters",
@@ -47,7 +53,9 @@
     "age": "Age, years",
     "vaccination": "Vaccination",
     "showResults": "Show results",
-    "selectFromList": "Choose from the list"
+    "selectFromList": "Choose from the list",
+    "agePlaceholder": "Any",
+    "reset": "Reset filters"
   },
   "home": {
     "searchPlaceholder": "Search",
