@@ -11,8 +11,13 @@ import { getAuth, signOut } from '@react-native-firebase/auth';
 
 export default function DrawerContent({ navigation }: DrawerContentComponentProps) {
   const loggedInNavigation = useNavigation<NativeStackNavigationProp<LoggedInStackType>>();
+  
   const navigateToLanguages = () => {
     loggedInNavigation.navigate(ScreenNames.LANGUAGES_PAGE);
+  };
+
+  const navigateToWebPage = () => {
+    loggedInNavigation.navigate(ScreenNames.WEB_PAGE);
   };
 
   const { t } = useTranslation();
@@ -21,7 +26,7 @@ export default function DrawerContent({ navigation }: DrawerContentComponentProp
     <View style={styles.mainWrapper}>
       <Header isOpenDrawer={true} onClose={() => navigation.closeDrawer()} />
 
-      <TouchableOpacity style={styles.btnWrapper}>
+      <TouchableOpacity style={styles.btnWrapper} onPress={navigateToWebPage}>
         <Text style={styles.text}>{t('drawer.website')}</Text>
       </TouchableOpacity>
 

@@ -6,6 +6,7 @@ import FilterSettings from '../../screen/FilterSettings';
 import SettingsHeader from '../../common/components/SettingsHeader';
 import PetPage from '../../screen/PetPage';
 import Languages from '../../screen/Languages';
+import WebPage from '../../screen/WebPage';
 
 const Stack = createNativeStackNavigator<LoggedInStackType>();
 
@@ -39,6 +40,14 @@ export default function LoggedInStack() {
         }}
         name={ScreenNames.LANGUAGES_PAGE}
         component={Languages}
+      />
+
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name={ScreenNames.WEB_PAGE}
+        component={WebPage}
       />
     </Stack.Navigator>
   );

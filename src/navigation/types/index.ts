@@ -17,6 +17,7 @@ export type LoggedInStackType = {
     [ScreenNames.FILTER_SETTINGS_PAGE]: { settings?: SettingsProps } | undefined;
     [ScreenNames.PET_PAGE]: { pet: Pet };
     [ScreenNames.LANGUAGES_PAGE]: undefined;
+    [ScreenNames.WEB_PAGE]: undefined;
 }
 
 export type LoggedOutStackType = {
