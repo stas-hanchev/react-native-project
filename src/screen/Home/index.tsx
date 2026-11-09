@@ -1,4 +1,3 @@
-// import { getAuth, signOut } from '@react-native-firebase/auth';
 import {
   collection,
   getDocs,
@@ -64,9 +63,6 @@ export default function Home() {
 
   const route = useRoute<RouteProp<TabBarStackType, ScreenNames.HOME_PAGE>>();
   const routeSettings = route.params?.settings;
-
-  // <TouchableOpacity onPress={() => signOut(getAuth())}>
-  // </TouchableOpacity>
 
   useEffect(() => {
     let isActual = true;

@@ -7,6 +7,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { LoggedInStackType } from "../../../navigation/types";
 import { useNavigation } from "@react-navigation/native";
 import { ScreenNames } from "../../../constant/screenNames";
+import { getAuth, signOut } from '@react-native-firebase/auth';
 
 export default function DrawerContent({ navigation }: DrawerContentComponentProps) {
   const loggedInNavigation = useNavigation<NativeStackNavigationProp<LoggedInStackType>>();
@@ -28,7 +29,7 @@ export default function DrawerContent({ navigation }: DrawerContentComponentProp
         <Text style={styles.text}>{t('drawer.language')}</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.btnWrapper}>
+      <TouchableOpacity style={styles.btnWrapper} onPress={() => signOut(getAuth())}>
         <Text style={styles.text}>{t('drawer.logout')}</Text>
       </TouchableOpacity>
     </View>
